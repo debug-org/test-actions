@@ -22,3 +22,14 @@ jobs:
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
          run: echo ${{ github.actor }}
+       - name: Configure git user
+         run: |
+            git config user.name ${{ github.actor }}
+            git config user.email ${{ github.actor }}@github.com
+       - name: Tag Main
+         run: |
+            git tag -a "${{ inputs.releaseVersion }}" -m "Tagging main branch"
+       - name: Push tag
+         run: |
+            git push origin "${{ inputs.releaseVersion }}"
+
