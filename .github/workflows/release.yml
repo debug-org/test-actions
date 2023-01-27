@@ -20,8 +20,5 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Echo Actor
-        run: echo "User name: $env:GITHUB_ACTOR"
-        
-      - name: Echo ReleaseVersion"
-        run: echo "User name: ${input.releaseVersion}"
-        
+        run: echo "User name: ${{ env.GITHUB_ACTOR }}"
+
