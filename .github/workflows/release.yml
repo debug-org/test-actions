@@ -19,6 +19,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Tag Main
         run: |
-          git tag "${{ inputs.releaseVersion }}"
+          git tag -a "${{ inputs.releaseVersion }}" -m "Tagging main branch"
+      - name: Push tag
+        run: |
           git push origin "${{ inputs.releaseVersion }}"
-
