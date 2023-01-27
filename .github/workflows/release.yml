@@ -17,10 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Echo Actor
+      - name: Tag Main
         run: |
-          echo "User name: ${{ env.GITHUB_ACTOR }}"
-      - name: Echo Release Version
-        run: |
-          echo "User name: ${{ inputs.releaseVersion }}"
+          git tag "${{ inputs.releaseVersion }}"
+          git push origin "${{ inputs.releaseVersion }}"
 
