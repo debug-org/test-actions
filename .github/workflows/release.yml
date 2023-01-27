@@ -21,7 +21,8 @@ jobs:
        - name: Create release
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-         run: echo ${{ github.actor }}
+         run: |
+            echo ${{ github.actor }}
        - name: Configure git user
          run: |
             git config user.name ${{ github.actor }}
