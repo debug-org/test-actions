@@ -14,6 +14,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: 
+      repository-projects: read|write
     steps:
       - uses: actions/checkout@v3
       - uses: rickstaa/action-create-tag@v1
