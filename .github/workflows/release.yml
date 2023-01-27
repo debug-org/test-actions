@@ -15,10 +15,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-
-      # Runs a single command using the runners shell
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Echo Actor
-        run: echo "User name: ${{ env.GITHUB_ACTOR }}"
+        run: |
+          echo "User name: ${{ env.GITHUB_ACTOR }}"
+      - name: Echo Release Version
+        run: |
+          echo "User name: ${{ inputs.releaseVersion }}"
 
