@@ -16,16 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-      - name: "Echo"
-        run: echo '${{github.event.pusher.email}}'
-      - name: Configure git user
-        run: |
-          git config --global user.name "${{ secrets.GIT_USERNAME }}"
-          git config --global user.email "${{ secrets.GIT_EMAIL }}"
-      - name: Tag Main
-        run: |
-          git tag -a "${{ inputs.releaseVersion }}" -m "Tagging main branch"
-      - name: Push tag
-        run: |
-          git push origin "${{ inputs.releaseVersion }}"
+      - uses: actions/checkout@v3
+      - uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "${{ inputs.releaseVersion }}"
+          message: "New release ${{ inputs.releaseVersion }}"
