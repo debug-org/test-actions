@@ -17,6 +17,6 @@ jobs:
     permissions: 
       repository-projects: write
     steps:
-      - uses: actions/checkout@v3
-      - name: 'echo'
-        run: echo "${{ github }}"
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
