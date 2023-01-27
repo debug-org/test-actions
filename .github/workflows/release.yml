@@ -19,5 +19,9 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo "${inputs.releaseVersion} and ${GITHUB_ACTOR}"
+      - name: Echo Actor
+        run: echo "User name: $env:GITHUB_ACTOR"
+        
+      - name: Echo ReleaseVersion"
+        run: echo "User name: ${input.releaseVersion}"
+        
