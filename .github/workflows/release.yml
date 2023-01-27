@@ -23,10 +23,10 @@ jobs:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
          run: |
             echo ${{ github.actor }}
-       - name: Configure git user
+       - name: Initialize mandatory git config
          run: |
-            git config user.name ${{ github.actor }}
-            git config user.email ${{ github.actor }}@github.com
+           git config user.name "GitHub Actions"
+           git config user.email noreply@github.com
        - name: Tag Main
          run: |
             git tag -a "${{ inputs.releaseVersion }}" -m "Tagging main branch"
