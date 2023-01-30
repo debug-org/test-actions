@@ -16,6 +16,9 @@ jobs:
       run: |
        git config user.name "GitHub Actions"
        git config user.email noreply@github.com
+    - name: Set url
+      run: |
+        git remote set-url origin ssh://git@github.com/krokhmaliuk-virtru/test-actions.git
     - name: Tag Main
       run: |
         git tag -a "${{ inputs.releaseVersion }}" -m "Tagging main branch"
