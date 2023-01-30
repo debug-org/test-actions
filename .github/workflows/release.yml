@@ -6,7 +6,8 @@ on:
         description: 'Name of version'
         required: true
 jobs:
-  build:
+  release:
+    permissions: write-all
     name: Create Release
     runs-on: ubuntu-latest
     steps:
