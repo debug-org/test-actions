@@ -61,7 +61,7 @@ jobs:
           # discussion_category_name: # optional
           
           # Whether to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
-          # generate_release_notes: # optional
+          generate_release_notes: true
           
           # Append to existing body instead of overwriting it. Default is false.
-          # append_body: # optional
+          append_body: true
