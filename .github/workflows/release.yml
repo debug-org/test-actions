@@ -6,24 +6,23 @@ on:
         description: 'Name of version'
         required: true
 jobs:
-  createrelease:
+  build:
+    name: Create Release
     runs-on: ubuntu-latest
-
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-    - name: Initialize mandatory git config
-      run: |
-       git config user.name "GitHub Actions"
-       git config user.email noreply@github.com
-    - name: Set url
-      run: |
-        git remote set-url origin ssh://git@github.com/krokhmaliuk-virtru/test-actions.git
-    - name: Tag Main
-      run: |
-        git tag -a "${{ inputs.releaseVersion }}" -m "Tagging main branch"
-    - name: Push tag
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        git push origin "${{ github.event.inputs.releaseVersion }}"
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
