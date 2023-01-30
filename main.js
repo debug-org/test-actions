@@ -1,1 +1,1 @@
-console.log('Hello release 2')
+console.log('Hello 1.0.0');
