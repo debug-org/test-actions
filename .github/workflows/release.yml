@@ -5,12 +5,12 @@ on:
       releaseVersion:
         description: 'New version of release'
         required: true
-      frontChartVersion:
-        description: 'Front-end chart version'
-        required: true
-      backChartVersion:
-        description: 'Back-end chart version'
-        required: true
+      # frontChartVersion:
+        # description: 'Front-end chart version'
+        # required: true
+      # backChartVersion:
+        # description: 'Back-end chart version'
+        # required: true
 jobs:
   release:
     permissions:
