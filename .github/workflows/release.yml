@@ -5,6 +5,10 @@ on:
       releaseVersion:
         description: 'New version of release'
         required: true
+      isDraft:
+        type: boolean
+        description: 'Created draft release'
+        required: true
       # frontChartVersion:
         # description: 'Front-end chart version'
         # required: true
@@ -31,7 +35,7 @@ jobs:
           tag_name: ${{ inputs.releaseVersion }}
           
           # Creates a draft release. Defaults to false
-          draft: false
+          draft: ${{ inputs.isDraft }}
           
           # Identify the release as a prerelease. Defaults to false
           prerelease: false
