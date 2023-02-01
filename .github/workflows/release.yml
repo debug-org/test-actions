@@ -36,7 +36,7 @@ jobs:
         run: echo ${{ github.actor }}
         
       - name: Git config
-      - run: echo 'config'
+        run: echo 'config'
         
       - name: Status
         run: git status
