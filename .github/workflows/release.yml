@@ -36,7 +36,9 @@ jobs:
         run: echo ${{ github.actor }}
         
       - name: Git config
-        run: echo 'config'
+        run: |
+          git config --global user.email "${{ github.actor }}@virtru.com"
+          git config --global user.name ${{ github.actor }}
         
       - name: Status
         run: git status
