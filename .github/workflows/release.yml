@@ -32,6 +32,12 @@ jobs:
       - name: Replace frontendVersion for chartsVersions.json
         run: "perl -i -pe's/\"frontendVersion\": \"\\d.\\d.\\d\"/\"version\": \"${{ inputs.frontChartVersion }}\"/g' chartsVersions.json"
         
+      - name: Show Actor
+        run: echo ${{ github.actor }}
+        
+      - name: Git config
+      - run: echo 'config'
+        
       - name: Status
         run: git status
         
