@@ -24,7 +24,7 @@ jobs:
         run: "perl -i -pe's/\"version\": \"\\d.\\d.\\d\"/\"version\": \"${{ inputs.releaseVersion }}\"/g' openapi-aggregate.json"
 
       - name: Replace new OpedTDF release version for openapi/openapi-aggregate.yaml
-        run: "perl -i -pe's/\"version\": \"\\d.\\d.\\d\"/\"version\": \"${{ inputs.releaseVersion }}\"/g' openapi-aggregate.yaml"
+        run: "perl -i -pe's/version: \\d.\\d.\\d/\version: ${{ inputs.releaseVersion }}/g' openapi-aggregate.yaml"
 
       - name: Replace backendVersion for chartsVersions.json
         run: "perl -i -pe's/\"backendVersion\": \"\\d.\\d.\\d\"/\"backendVersion\": \"${{ inputs.backChartVersion }}\"/g' chartsVersions.json"
