@@ -31,6 +31,9 @@ jobs:
 
       - name: Replace frontendVersion for chartsVersions.json
         run: "perl -i -pe's/\"frontendVersion\": \"\\d.\\d.\\d\"/\"version\": \"${{ inputs.frontChartVersion }}\"/g' chartsVersions.json"
+        
+      - name: Status
+        run: git status
 
       - name: Creating Release
         # You may pin to the exact commit or the version.
