@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Replace new OpedTDF release version for openapi/openapi-aggregate.json
       - uses: actions/checkout@v3
-        run: "perl -i -pe's/\"version\": \"\d.\d.\d\"/\"version\": \"${{ inputs.releaseVersion }}\"/g' openapi-aggregate.json"
+        run: perl -i -pe's/\"version\": \"\d.\d.\d\"/\"version\": \"${{ inputs.releaseVersion }}\"/g' openapi-aggregate.json
 
       - name: Replace new OpedTDF release version for openapi/openapi-aggregate.yaml
       - uses: actions/checkout@v3
