@@ -46,8 +46,8 @@ jobs:
       - name: Commit updates
         run: git commit -a -m "Bump versions"
         
-      - name: Git branch
-        run: git branch
+      - name: Pushing updates
+        run: git push origin main
 
       - name: Creating Release
         # You may pin to the exact commit or the version.
