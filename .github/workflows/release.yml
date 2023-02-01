@@ -19,21 +19,18 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - name: Replace new OpedTDF release version for openapi/openapi-aggregate.json
       - uses: actions/checkout@v3
-        run: perl -i -pe's/\"version\": \"\d.\d.\d\"/\"version\": \"${{ inputs.releaseVersion }}\"/g' openapi-aggregate.json
+      - name: Replace new OpedTDF release version for openapi/openapi-aggregate.json
+        run: "perl -i -pe's/\"version\": \"\\d.\\d.\\d\"/\"version\": \"${{ inputs.releaseVersion }}\"/g' openapi-aggregate.json"
 
       - name: Replace new OpedTDF release version for openapi/openapi-aggregate.yaml
-      - uses: actions/checkout@v3
-        run: "perl -i -pe's/\"version\": \"\d.\d.\d\"/\"version\": \"${{ inputs.releaseVersion }}\"/g' openapi-aggregate.yaml"
+        run: "perl -i -pe's/\"version\": \"\\d.\\d.\\d\"/\"version\": \"${{ inputs.releaseVersion }}\"/g' openapi-aggregate.yaml"
 
       - name: Replace backendVersion for chartsVersions.json
-      - uses: actions/checkout@v3
-        run: "perl -i -pe's/\"backendVersion\": \"\d.\d.\d\"/\"version\": \"${{ inputs.backChartVersion }}\"/g' chartsVersions.json"
+        run: "perl -i -pe's/\"backendVersion\": \"\\d.\\d.\\d\"/\"version\": \"${{ inputs.backChartVersion }}\"/g' chartsVersions.json"
 
       - name: Replace frontendVersion for chartsVersions.json
-      - uses: actions/checkout@v3
-        run: "perl -i -pe's/\"frontendVersion\": \"\d.\d.\d\"/\"version\": \"${{ inputs.frontChartVersion }}\"/g' chartsVersions.json"
+        run: "perl -i -pe's/\"frontendVersion\": \"\\d.\\d.\\d\"/\"version\": \"${{ inputs.frontChartVersion }}\"/g' chartsVersions.json"
 
       - name: Creating Release
         # You may pin to the exact commit or the version.
