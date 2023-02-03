@@ -1,4 +1,4 @@
-name: Release
+name: Create Release
 on:
   workflow_dispatch:
     inputs:
@@ -50,7 +50,7 @@ jobs:
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml 
         
       - name: Commit updates
-        run: git commit -a -m "⬆️ GA Bumping versions. OpenTDF to ${{ inputs.releaseVersion }} with charts fontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
+        run: git commit -a -m "⬆️ [Release] OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
         
       - name: Pushing updates
         run: git push origin main
