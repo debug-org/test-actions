@@ -18,11 +18,8 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - name: Install yq
-      - uses: dcarbone/install-yq-action@v1.1.0
-      
-      - name: Install jq
-      - uses: dcarbone/install-jq-action@v1.0.1
+      # - uses: dcarbone/install-yq-action@v1.1.0      
+      # - uses: dcarbone/install-jq-action@v1.0.1
         
       - name: Git config
         run: |
@@ -32,15 +29,19 @@ jobs:
       - name: Status
         run: git status
         
+      - uses: dcarbone/install-jq-action@v1.0.1
       - name: Bump backendVersion in chartsVersions.json
-        run:  jq '.backendVersion = "${{ inputs.releaseVersion }}"' chartsVersions.json | sponge chartsVersions.json
+        run: jq '.backendVersion = "${{ inputs.releaseVersion }}"' chartsVersions.json | sponge chartsVersions.json
         
+      - uses: dcarbone/install-jq-action@v1.0.1
       - name: Bump frontendVersion in chartsVersions.json
         run:  jq '.frontendVersion = "${{ inputs.releaseVersion }}"' chartsVersions.json | sponge chartsVersions.json
         
+      - uses: dcarbone/install-jq-action@v1.0.1
       - name: Bump version openapi-aggregate.json
         run:  jq '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.json | sponge openapi-aggregate.json
         
+      - uses: dcarbone/install-yq-action@v1.1.0 
       - name: Bump version openapi-aggregate.yaml
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml 
         
