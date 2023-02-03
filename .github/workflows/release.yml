@@ -50,7 +50,7 @@ jobs:
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml 
         
       - name: Commit updates
-        run: git commit -a -m "Bump versions"
+        run: git commit -a -m "⬆️ GA Bumping versions. OpenTDF to ${{ inputs.releaseVersion }} with charts fontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
         
       - name: Pushing updates
         run: git push origin main
