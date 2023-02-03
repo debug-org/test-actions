@@ -11,6 +11,10 @@ on:
       backChartVersion:
         description: 'Back-end chart version'
         required: true
+      isPreRelease:
+        type: boolean
+        description: 'Created release candidate'
+        required: true
 jobs:
   release:
     permissions:
@@ -66,7 +70,7 @@ jobs:
           draft: false # ${{ inputs.isDraft }}
 
           # Identify the release as a prerelease. Defaults to false
-          prerelease: false
+          prerelease: ${{ inputs.isPreRelease }}
 
           # Note-worthy description of changes in release
           # body: # optional
