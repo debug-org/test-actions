@@ -13,7 +13,7 @@ on:
         required: true
       isPreRelease:
         type: boolean
-        description: 'Created release candidate'
+        description: 'Create release candidate'
         required: true
 jobs:
   release:
