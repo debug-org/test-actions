@@ -23,7 +23,7 @@ jobs:
       - uses: dcarbone/install-jq-action@v1.0.1
       
       - name: Install sponge
-        run: apt-get install sponge
+        run: sudo apt-get install sponge
         
       - name: Git config
         run: |
