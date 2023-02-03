@@ -19,17 +19,9 @@ jobs:
     name: Set up tools
     runs-on: ubuntu-latest
     steps:
-      - name: Install YQ
-      # You may pin to the exact commit or the version.
-      # uses: dcarbone/install-yq-action@4d2a79586f70993921358b3d28c596fec4e92ed2
       - uses: dcarbone/install-yq-action@v1.1.0
-        # with:
-          # Version of YQ to install
-          # version: # optional, default is v4.30.6
-          # If 'true', downloads .tar.gz of binary rather than raw binary.  Save the tubes.
-          # download-compressed: # optional, default is true
-          # If 'true', does not check for existing yq installation before continuing.
-          # force: # optional, default is false
+      - name: Install YQ
+        run: jq -h
     
   release:
     permissions:
@@ -40,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Replace new OpedTDF release version for openapi/openapi-aggregate.json
-        run: "jq -h"
+        run: jq -h
 
       - name: Show Actor
         run: echo ${{ github.actor }}
