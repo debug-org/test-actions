@@ -18,11 +18,11 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
+      - name: Install yq
       - uses: dcarbone/install-yq-action@v1.1.0
-      - uses: dcarbone/install-jq-action@v1.0.1
       
-      - name: Show Actor
-        run: echo ${{ github.actor }}
+      - name: Install jq
+      - uses: dcarbone/install-jq-action@v1.0.1
         
       - name: Git config
         run: |
