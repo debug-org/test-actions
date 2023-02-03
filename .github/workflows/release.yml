@@ -17,6 +17,7 @@ on:
         required: true
 jobs:
   release:
+    if: github.ref_name == 'main'
     permissions:
       contents: write
     name: Create Release
