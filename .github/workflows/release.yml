@@ -34,10 +34,10 @@ jobs:
         run: git status
         
       - name: Bump backendVersion in chartsVersions.json
-        run: jq '.backendVersion = "${{ inputs.releaseVersion }}"' chartsVersions.json | sponge chartsVersions.json
+        run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
         
       - name: Bump frontendVersion in chartsVersions.json
-        run:  jq '.frontendVersion = "${{ inputs.releaseVersion }}"' chartsVersions.json | sponge chartsVersions.json
+        run:  jq '.frontendVersion = "${{ inputs.frontChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
         
       - name: Bump version openapi-aggregate.json
         run:  jq '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.json | sponge openapi-aggregate.json
