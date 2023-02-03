@@ -11,7 +11,7 @@ on:
       backChartVersion:
         description: 'Back-end chart version'
         required: true
-    
+jobs:
   release:
     permissions:
       contents: write
