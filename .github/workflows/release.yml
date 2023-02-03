@@ -15,25 +15,21 @@ jobs:
   setup-tools:
     permissions:
       contents: write
-      
     name: Set up tools
     runs-on: ubuntu-latest
     steps:
+      - name: Install yq
       - uses: dcarbone/install-yq-action@v1.1.0
-      - name: Install YQ
-        run: jq -h
+      
+      - name: Install jq
+      - uses: dcarbone/install-jq-action@v1.0.1
     
   release:
     permissions:
       contents: write
-
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Replace new OpedTDF release version for openapi/openapi-aggregate.json
-        run: jq -h
-
       - name: Show Actor
         run: echo ${{ github.actor }}
         
@@ -44,6 +40,18 @@ jobs:
         
       - name: Status
         run: git status
+        
+      - name: Bump backendVersion in chartsVersions.json
+        run:  jq '.backendVersion = "${{ inputs.releaseVersion }}"' chartsVersions.json | sponge chartsVersions.json
+        
+      - name: Bump frontendVersion in chartsVersions.json
+        run:  jq '.frontendVersion = "${{ inputs.releaseVersion }}"' chartsVersions.json | sponge chartsVersions.json
+        
+      - name: Bump version openapi-aggregate.json
+        run:  jq '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.json | sponge openapi-aggregate.json
+        
+      - name: Bump version openapi-aggregate.yaml
+        run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml 
         
       - name: Commit updates
         run: git commit -a -m "Bump versions"
