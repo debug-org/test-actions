@@ -11,18 +11,6 @@ on:
       backChartVersion:
         description: 'Back-end chart version'
         required: true
-jobs:
-  setup-tools:
-    permissions:
-      contents: write
-    name: Set up tools
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install yq
-      - uses: dcarbone/install-yq-action@v1.1.0
-      
-      - name: Install jq
-      - uses: dcarbone/install-jq-action@v1.0.1
     
   release:
     permissions:
@@ -30,6 +18,9 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
+      - uses: dcarbone/install-yq-action@v1.1.0
+      - uses: dcarbone/install-jq-action@v1.0.1
+      
       - name: Show Actor
         run: echo ${{ github.actor }}
         
