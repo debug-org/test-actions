@@ -1,1 +1,4 @@
-{ "backendVersion" : "1.2.1", "frontendVersion": "1.0.11" }
+{
+  "backendVersion": "2.0.0",
+  "frontendVersion": "2.0.0"
+}
