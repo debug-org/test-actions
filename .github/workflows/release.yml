@@ -16,6 +16,13 @@ on:
         description: 'Create release candidate'
         required: true
 jobs:
+  warn:
+    runs-on: ubuntu-latest
+    if: github.ref_name != 'main'
+    steps:
+      - name: This workflow should run only main branch
+        run: echo Current branch is "${{ github.ref_name }}"
+    
   release:
     permissions:
       contents: write
