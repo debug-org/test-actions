@@ -108,7 +108,7 @@ jobs:
   test:
     permissions:
       contents: write
-    name: Create Release
+    name: Test job
     runs-on: ubuntu-latest
     steps:
       - name: This workflow should run only main branch
