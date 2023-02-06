@@ -105,3 +105,11 @@ jobs:
 
           # Append to existing body instead of overwriting it. Default is false.
           append_body: true
+  test:
+    permissions:
+      contents: write
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: This workflow should run only main branch
+        run: echo 'Test workflow'
