@@ -54,7 +54,7 @@ jobs:
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
       - name: Commit updates
-        uses: krokhmaliuk-virtru/commit@0.0.1
+        uses: swinton/commit@v2.0.0
         env:
           GH_TOKEN: ${{ github.token }}
         with:
