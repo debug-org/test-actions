@@ -33,10 +33,10 @@ jobs:
       - name: Install sponge
         run: sudo apt-get install moreutils
         
-      - name: Git config
-        run: |
-          git config --global user.email "${{ github.actor }}@virtru.com"
-          git config --global user.name ${{ github.actor }}
+ #     - name: Git config
+ #       run: |
+ #         git config --global user.email "${{ github.actor }}@virtru.com"
+ #         git config --global user.name ${{ github.actor }}
         
       - name: Status
         run: git status
