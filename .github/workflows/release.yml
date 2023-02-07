@@ -24,8 +24,8 @@ jobs:
     steps:
       - name: This workflow should run only main branch
         if: github.ref_name != 'main'
-        run: exit 1
-        
+        run: echo This workflow should run only main branch. Current branch is "${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY && exit 1
+
       - uses: actions/checkout@v3
       - uses: dcarbone/install-yq-action@v1.1.0      
       - uses: dcarbone/install-jq-action@v1.0.1
@@ -54,7 +54,7 @@ jobs:
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml 
         
       - name: Commit updates
-        run: git commit -a -m "⬆️ [Release] OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
+        run: git commit -S -a -m "⬆️ [Release] OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
         
       - name: Pushing updates
         run: git push origin main
@@ -105,3 +105,13 @@ jobs:
 
           # Append to existing body instead of overwriting it. Default is false.
           append_body: true
+  test:
+    permissions:
+      contents: write
+    name: Test job
+    runs-on: ubuntu-latest
+    needs:
+      - release
+    steps:
+      - name: This workflow should run only main branch
+        run: echo 'Test workflow'
