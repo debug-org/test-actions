@@ -51,10 +51,26 @@ jobs:
         run:  jq '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.json | sponge openapi-aggregate.json
         
       - name: Bump version openapi-aggregate.yaml
-        run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml 
+        run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
+
+      - name: Commit changes
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          FILE_TO_COMMIT: *
+          DESTINATION_BRANCH: main
+        run: |
+          export MESSAGE="⬆️ [Release] OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
+          export SHA=$( git rev-parse $DESTINATION_BRANCH:$FILE_TO_COMMIT )
+          export CONTENT=$( base64 -i $FILE_TO_COMMIT )
+          gh api --method PUT /repos/krokhmaliuk-virtru/test-actions/contents/$FILE_TO_COMMIT \
+            --field message="$MESSAGE" \
+            --field content="$CONTENT" \
+            --field encoding="base64" \
+            --field branch="$DESTINATION_BRANCH" \
+            --field sha="$SHA"
         
-      - name: Commit updates
-        run: git commit -S -a -m "⬆️ [Release] OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
+#      - name: Commit updates
+#        run: git commit -S -a -m "⬆️ [Release] OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
         
       - name: Pushing updates
         run: git push origin main
