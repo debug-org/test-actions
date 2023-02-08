@@ -66,6 +66,8 @@ jobs:
           -f encoding='base64'
 
       - name: Get tree SHA
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo ${{ github.sha }}
           gh api \
