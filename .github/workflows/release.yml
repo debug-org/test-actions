@@ -54,7 +54,7 @@ jobs:
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
       - name: Create chartsVersions base64
-        run: base64  chartsVersions.json
+        run: base64  chartsVersions.json >> $GITHUB_OUTPUT
         id: charts_versions
 
       - name: Create openapi-aggregate.json base64
