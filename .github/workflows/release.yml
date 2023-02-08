@@ -53,17 +53,41 @@ jobs:
       - name: Bump version openapi-aggregate.yaml
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
-      - name: Commit updates
-        uses: swinton/commit@v2.0.0
-        env:
-          GH_TOKEN: ${{ github.token }}
-        with:
-          files: |
-            chartsVersions.json
-            openapi-aggregate.json
-            openapi-aggregate.yaml
-          commit-message: "⬆️ [Release] OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
-          ref: refs/heads/main
+      - name: Create chartsVersions base64
+        run: base64  chartsVersions.json
+        id: charts_versions
+
+      - name: Create openapi-aggregate.json base64
+        run:  base64 openapi-aggregate.json
+        id: openapi_json
+
+      - name: Create openapi-aggregate.yaml base64
+        run:  base64 openapi-aggregate.yaml
+        id: openapi_yaml
+
+      - name: Test output
+        run: echo ${{ steps.charts_versions.outputs }}
+
+#      - name: Create Blobs
+#        run: |
+#          gh api \
+#          --method POST \
+#          -H "Accept: application/vnd.github+json" \
+#          /repos/${{ github.repository }}/git/blobs \
+#          -f content='Content of the blob' \
+#          -f encoding='base64'
+
+  #      - name: Commit updates
+#        uses: swinton/commit@v2.0.0
+#        env:
+#          GH_TOKEN: ${{ github.token }}
+#        with:
+#          files: |
+#            chartsVersions.json
+#            openapi-aggregate.json
+#            openapi-aggregate.yaml
+#          commit-message: "⬆️ [Release] OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
+#          ref: refs/heads/main
 
 #      - name: Pushing updates
 #        run: git push origin main
