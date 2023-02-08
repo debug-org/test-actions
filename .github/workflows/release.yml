@@ -58,7 +58,7 @@ jobs:
           CHARTS_BLOB: $(base64 chartsVersions.json)
           OPENAPI_JSON_BLOB: $(base64 openapi-aggregate.json)
           OPENAPI_YAML_BLOB: $(base64 openapi-aggregate.yaml)
-#        run: echo "CHARTS_BLOB=$(base64 chartsVersions.json)" >> $GITHUB_OUTPUT
+        run: echo "CHARTS_BLOB=$(base64 chartsVersions.json)" >> $GITHUB_OUTPUT
 #        id: charts_versions
 #
 #      - name: Create openapi-aggregate.json base64
