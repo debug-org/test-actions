@@ -73,11 +73,13 @@ jobs:
 
       - name: Create Blobs
         run: |
+          export blob_string=$(base64 chartsVersions.json)
+          echo blob_string
           gh api \
           --method POST \
           -H "Accept: application/vnd.github+json" \
           /repos/${{ github.repository }}/git/blobs \
-          -f content=$(base64 chartsVersions.json) \
+          -f content=$blob_string \
           -f encoding='base64'
 
   #      - name: Commit updates
