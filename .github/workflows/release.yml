@@ -53,36 +53,32 @@ jobs:
       - name: Bump version openapi-aggregate.yaml
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
-      - name: Set blobs
-        env:
-          CHARTS_BLOB: $(base64 chartsVersions.json)
-          OPENAPI_JSON_BLOB: $(base64 openapi-aggregate.json)
-          OPENAPI_YAML_BLOB: $(base64 openapi-aggregate.yaml)
-        run: echo "CHARTS_BLOB=$(base64 chartsVersions.json)" >> $GITHUB_OUTPUT
+#      - name: Create chartsVersions base64
+#        run: echo "CHARTS_BLOB=$(base64 chartsVersions.json)" >> $GITHUB_OUTPUT
 #        id: charts_versions
-#
+
 #      - name: Create openapi-aggregate.json base64
 #        run: echo "OPENAPI_JSON_BLOB=$(base64 openapi-aggregate.json)" >> $GITHUB_OUTPUT
 #        id: openapi_json
-#
+
 #      - name: Create openapi-aggregate.yaml base64
 #        run: echo "OPENAPI_YAML_BLOB=$(base64 openapi-aggregate.yaml)" >> $GITHUB_OUTPUT
 #        id: openapi_yaml
-
-      - name: Test output
-        run: |
-          echo CHARTS_BLOB $CHARTS_BLOB
-          echo OPENAPI_JSON_BLOB $OPENAPI_JSON_BLOB
-          echo OPENAPI_YAML_BLOB $OPENAPI_YAML_BLOB
-
-#      - name: Create Blobs
+#
+#      - name: Test output
 #        run: |
-#          gh api \
-#          --method POST \
-#          -H "Accept: application/vnd.github+json" \
-#          /repos/${{ github.repository }}/git/blobs \
-#          -f content='Content of the blob' \
-#          -f encoding='base64'
+#          echo CHARTS_BLOB $CHARTS_BLOB
+#          echo OPENAPI_JSON_BLOB $OPENAPI_JSON_BLOB
+#          echo OPENAPI_YAML_BLOB $OPENAPI_YAML_BLOB
+
+      - name: Create Blobs
+        run: |
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          /repos/${{ github.repository }}/git/blobs \
+          -f content=$(base64 chartsVersions.json) \
+          -f encoding='base64'
 
   #      - name: Commit updates
 #        uses: swinton/commit@v2.0.0
