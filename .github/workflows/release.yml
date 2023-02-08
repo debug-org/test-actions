@@ -53,9 +53,9 @@ jobs:
       - name: Bump version openapi-aggregate.yaml
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
-#      - name: Create chartsVersions base64
-#        run: echo "CHARTS_BLOB=$(base64 chartsVersions.json)" >> $GITHUB_OUTPUT
-#        id: charts_versions
+      - name: Create chartsVersions base64
+        run: base64 chartsVersions.json
+        id: charts_versions
 
 #      - name: Create openapi-aggregate.json base64
 #        run: echo "OPENAPI_JSON_BLOB=$(base64 openapi-aggregate.json)" >> $GITHUB_OUTPUT
@@ -73,8 +73,7 @@ jobs:
 
       - name: Create Blobs
         run: |
-          export blob_string=$(base64 chartsVersions.json)
-          echo blob_string
+          base64 chartsVersions.json
           gh api \
           --method POST \
           -H "Accept: application/vnd.github+json" \
