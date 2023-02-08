@@ -53,24 +53,6 @@ jobs:
       - name: Bump version openapi-aggregate.yaml
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
-      - name: Create chartsVersions base64
-        run: base64 chartsVersions.json
-        id: charts_versions
-
-#      - name: Create openapi-aggregate.json base64
-#        run: echo "OPENAPI_JSON_BLOB=$(base64 openapi-aggregate.json)" >> $GITHUB_OUTPUT
-#        id: openapi_json
-
-#      - name: Create openapi-aggregate.yaml base64
-#        run: echo "OPENAPI_YAML_BLOB=$(base64 openapi-aggregate.yaml)" >> $GITHUB_OUTPUT
-#        id: openapi_yaml
-#
-#      - name: Test output
-#        run: |
-#          echo CHARTS_BLOB $CHARTS_BLOB
-#          echo OPENAPI_JSON_BLOB $OPENAPI_JSON_BLOB
-#          echo OPENAPI_YAML_BLOB $OPENAPI_YAML_BLOB
-
       - name: Create blob for chartsVersions.json
         env:
           GH_TOKEN: ${{ github.token }}
@@ -82,6 +64,13 @@ jobs:
           /repos/${{ github.repository }}/git/blobs \
           -f content="$(base64 chartsVersions.json)" \
           -f encoding='base64'
+
+      - name: Get tree SHA
+        run: |
+          echo ${{ github.sha }}
+          gh api \
+          -H "Accept: application/vnd.github+json" \
+          /repos/${{ github.repository }}/git/trees/TREE_SHA
 
       - name: Create blob for openapi-aggregate.json
         env:
@@ -106,21 +95,6 @@ jobs:
           /repos/${{ github.repository }}/git/blobs \
           -f content="$(base64 openapi-aggregate.yaml)" \
           -f encoding='base64'
-
-  #      - name: Commit updates
-#        uses: swinton/commit@v2.0.0
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        with:
-#          files: |
-#            chartsVersions.json
-#            openapi-aggregate.json
-#            openapi-aggregate.yaml
-#          commit-message: "⬆️ [Release] OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}"
-#          ref: refs/heads/main
-
-#      - name: Pushing updates
-#        run: git push origin main
 
       - name: Creating Release
         # You may pin to the exact commit or the version.
