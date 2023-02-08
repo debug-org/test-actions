@@ -54,7 +54,7 @@ jobs:
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
       - name: Create chartsVersions base64
-        run: base64  chartsVersions.json
+        run: base64  chartsVersions.json >> $GITHUB_OUTPUT
         id: charts_versions
 
       - name: Create openapi-aggregate.json base64
@@ -66,7 +66,7 @@ jobs:
         id: openapi_yaml
 
       - name: Test output
-        run: echo ${{ steps.charts_versions.outputs }}
+        run: echo ${{ steps.charts_versions.outputs.stdout }}
 
 #      - name: Create Blobs
 #        run: |
