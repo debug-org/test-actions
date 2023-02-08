@@ -71,7 +71,7 @@ jobs:
 #          echo OPENAPI_JSON_BLOB $OPENAPI_JSON_BLOB
 #          echo OPENAPI_YAML_BLOB $OPENAPI_YAML_BLOB
 
-      - name: Create Blobs
+      - name: Create blob for chartsVersions.json
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -81,6 +81,30 @@ jobs:
           -H "Accept: application/vnd.github+json" \
           /repos/${{ github.repository }}/git/blobs \
           -f content="$(base64 chartsVersions.json)" \
+          -f encoding='base64'
+
+      - name: Create blob for openapi-aggregate.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          base64 openapi-aggregate.json
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          /repos/${{ github.repository }}/git/blobs \
+          -f content="$(base64 openapi-aggregate.json)" \
+          -f encoding='base64'
+
+      - name: Create blob for openapi-aggregate.yaml
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          base64 openapi-aggregate.yaml
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          /repos/${{ github.repository }}/git/blobs \
+          -f content="$(base64 openapi-aggregate.yaml)" \
           -f encoding='base64'
 
   #      - name: Commit updates
