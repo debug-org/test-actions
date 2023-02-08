@@ -53,23 +53,27 @@ jobs:
       - name: Bump version openapi-aggregate.yaml
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
-      - name: Create chartsVersions base64
-        run: echo "CHARTS_BLOB=$(base64 chartsVersions.json)" >> $GITHUB_OUTPUT
-        id: charts_versions
-
-      - name: Create openapi-aggregate.json base64
-        run: echo "OPENAPI_JSON_BLOB=$(base64 openapi-aggregate.json)" >> $GITHUB_OUTPUT
-        id: openapi_json
-
-      - name: Create openapi-aggregate.yaml base64
-        run: echo "OPENAPI_YAML_BLOB=$(base64 openapi-aggregate.yaml)" >> $GITHUB_OUTPUT
-        id: openapi_yaml
+      - name: Set blobs
+        env:
+          CHARTS_BLOB: $(base64 chartsVersions.json)
+          OPENAPI_JSON_BLOB: $(base64 openapi-aggregate.json)
+          OPENAPI_YAML_BLOB: $(base64 openapi-aggregate.yaml)
+#        run: echo "CHARTS_BLOB=$(base64 chartsVersions.json)" >> $GITHUB_OUTPUT
+#        id: charts_versions
+#
+#      - name: Create openapi-aggregate.json base64
+#        run: echo "OPENAPI_JSON_BLOB=$(base64 openapi-aggregate.json)" >> $GITHUB_OUTPUT
+#        id: openapi_json
+#
+#      - name: Create openapi-aggregate.yaml base64
+#        run: echo "OPENAPI_YAML_BLOB=$(base64 openapi-aggregate.yaml)" >> $GITHUB_OUTPUT
+#        id: openapi_yaml
 
       - name: Test output
         run: |
-          echo CHARTS_BLOB ${{ steps.charts_versions.outputs.CHARTS_BLOB }}
-          echo OPENAPI_JSON_BLOB ${{ steps.openapi_json.outputs.OPENAPI_JSON_BLOB }}
-          echo OPENAPI_YAML_BLOB ${{ steps.openapi_yaml.outputs.OPENAPI_YAML_BLOB }}
+          echo CHARTS_BLOB $CHARTS_BLOB
+          echo OPENAPI_JSON_BLOB $OPENAPI_JSON_BLOB
+          echo OPENAPI_YAML_BLOB $OPENAPI_YAML_BLOB
 
 #      - name: Create Blobs
 #        run: |
