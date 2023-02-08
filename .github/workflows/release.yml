@@ -72,13 +72,15 @@ jobs:
 #          echo OPENAPI_YAML_BLOB $OPENAPI_YAML_BLOB
 
       - name: Create Blobs
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           base64 chartsVersions.json
           gh api \
           --method POST \
           -H "Accept: application/vnd.github+json" \
           /repos/${{ github.repository }}/git/blobs \
-          -f content=$blob_string \
+          -f content=$(base64 chartsVersions.json) \
           -f encoding='base64'
 
   #      - name: Commit updates
