@@ -129,7 +129,7 @@ jobs:
                     "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}
                   },
                 ]
-              }' | jq '.sha')" >> $GITHUB_OUTPUT
+              }')"
 
       - name: Log Tree SHA
         run: |
