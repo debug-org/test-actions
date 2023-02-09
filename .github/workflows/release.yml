@@ -58,17 +58,16 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         id: chart_blob
         run: |
-          base64 chartsVersions.json
-          gh api \
+          echo "CHARTS_SHA=$(gh api \
             --method POST \
             -H "Accept: application/vnd.github+json" \
             /repos/${{ github.repository }}/git/blobs \
             -f content="$(base64 chartsVersions.json)" \
             -f encoding='base64' \
-          | jq '.sha' >> $GITHUB_OUTPUT
+          | jq '.sha')"
 
       - name: Show blob
-        run: echo ${{join(steps.chart_blob.outputs.*, '\n')}}
+        run: echo ${{ steps.chart_blob.outputs.CHARTS_SHA }}
 
 #      - name: Create blob for openapi-aggregate.json
 #        env:
