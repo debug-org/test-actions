@@ -67,7 +67,7 @@ jobs:
           | jq '.sha')"
 
       - name: Show blob
-        run: echo ${{ steps.chart_blob.outputs.CHARTS_SHA }}
+        run: echo ${{ join(steps.chart_blob.outputs.*, '\n') }}
 
 #      - name: Create blob for openapi-aggregate.json
 #        env:
