@@ -99,6 +99,7 @@ jobs:
           echo OPENAPI_YAML ${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}
 
       - name: Create tree SHA
+        id: create_tree
         run: |
           echo "TREE_SHA=$(curl \
             -X POST \
@@ -128,7 +129,7 @@ jobs:
                     "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}
                   },
                 ]
-              }' | jq '.sha')"
+              }' | jq '.sha')" >> $GITHUB_OUTPUT
 
       - name: Creating Release
         # You may pin to the exact commit or the version.
