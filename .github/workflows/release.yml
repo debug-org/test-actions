@@ -64,7 +64,7 @@ jobs:
             /repos/${{ github.repository }}/git/blobs \
             -f content="$(base64 chartsVersions.json)" \
             -f encoding='base64' \
-          | jq '.sha')"
+          | jq '.sha')" >> $GITHUB_OUTPUT
 
       - name: Show blob
         run: echo ${{ join(steps.chart_blob.outputs.*, '\n') }}
