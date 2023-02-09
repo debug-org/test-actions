@@ -66,65 +66,37 @@ jobs:
             -f encoding='base64' \
           | jq '.sha')" >> $GITHUB_OUTPUT
 
-      - name: Show blob
-        run: echo ${{ steps.chart_blob.outputs.CHARTS_SHA }}
+      - name: Create blob for openapi-aggregate.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+        id: openapi_json_blob
+        run: |
+          echo "OPENAPI_JSON=$(gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/git/blobs \
+            -f content="$(base64 openapi-aggregate.json)" \
+            -f encoding='base64' \
+          | jq '.sha')" >> $GITHUB_OUTPUT
 
-#      - name: Create blob for openapi-aggregate.json
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        run: |
-#          base64 chartsVersions.json
-#          gh api \
-#            --method POST \
-#            -H "Accept: application/vnd.github+json" \
-#            /repos/${{ github.repository }}/git/blobs \
-#            -f content="$(base64 openapi-aggregate.json)" \
-#            -f encoding='base64'
-#
-#      - name: Create blob for openapi-aggregate.yaml
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        run: |
-#          base64 chartsVersions.json
-#          gh api \
-#            --method POST \
-#            -H "Accept: application/vnd.github+json" \
-#            /repos/${{ github.repository }}/git/blobs \
-#            -f content="$(base64 openapi-aggregate.yaml)" \
-#            -f encoding='base64'
-#
-#      - name: Create blob for openapi-aggregate.json
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        run: |
-#          base64 openapi-aggregate.json
-#          gh api \
-#          --method POST \
-#          -H "Accept: application/vnd.github+json" \
-#          /repos/${{ github.repository }}/git/blobs \
-#          -f content="$(base64 openapi-aggregate.json)" \
-#          -f encoding='base64'
-#
-#      - name: Create blob for openapi-aggregate.yaml
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        run: |
-#          base64 openapi-aggregate.yaml
-#          gh api \
-#          --method POST \
-#          -H "Accept: application/vnd.github+json" \
-#          /repos/${{ github.repository }}/git/blobs \
-#          -f content="$(base64 openapi-aggregate.yaml)" \
-#          -f encoding='base64'
+      - name: Create blob for openapi-aggregate.yaml
+        env:
+          GH_TOKEN: ${{ github.token }}
+        id: openapi_yaml_blob
+        run: |
+          echo "OPENAPI_YAML=$(gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/git/blobs \
+            -f content="$(base64 openapi-aggregate.yaml)" \
+            -f encoding='base64' \
+          | jq '.sha')" >> $GITHUB_OUTPUT
 
-#      - name: Get tree SHA
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        run: |
-#          echo ${{ github.sha }}
-#          gh api \
-#            -H "Accept: application/vnd.github+json" \
-#            /repos/${{ github.repository }}/git/trees/${{ github.ref_name }}
+      - name: Log SHA's
+        run: |
+          echo CHARTS_SHA ${{ steps.chart_blob.outputs.CHARTS_SHA }}
+          echo OPENAPI_JSON ${{ steps.openapi_json_blob.outputs.OPENAPI_JSON }}   
+          echo OPENAPI_YAML ${{ steps.openapi_yaml_blob.outputs.OPENAPI_YAML }}
 
       - name: Create tree SHA
         run: |
