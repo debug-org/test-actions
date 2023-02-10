@@ -66,6 +66,7 @@ jobs:
             -f encoding='base64' \
           | jq '.sha')" >> $GITHUB_OUTPUT
 
+
       - name: Create blob for openapi-aggregate.json
         env:
           GH_TOKEN: ${{ github.token }}
@@ -78,6 +79,7 @@ jobs:
             -f content="$(base64 openapi-aggregate.json)" \
             -f encoding='base64' \
           | jq '.sha')" >> $GITHUB_OUTPUT
+
 
       - name: Create blob for openapi-aggregate.yaml
         env:
@@ -92,12 +94,14 @@ jobs:
             -f encoding='base64' \
           | jq '.sha')" >> $GITHUB_OUTPUT
 
+
       - name: DEBUG BLOB'S and SHA
         run: |
           echo CHARTS_SHA ${{ steps.chart_blob.outputs.BLOB_VALUE }}
           echo OPENAPI_JSON ${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}
           echo OPENAPI_YAML ${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}
           echo github.sha ${{ github.sha }}
+
 
       - name: Base tree
         run: |
@@ -106,6 +110,7 @@ jobs:
             -H "Authorization: Bearer ${{ github.token }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/git/trees/main
+
 
       - name: Create tree
         id: create_tree
@@ -116,12 +121,8 @@ jobs:
             -H "Authorization: Bearer ${{ github.token }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/git/trees \
-            -d '{ \
-          "base_tree":"${{ github.sha }}", \
-          "tree":[ \
-          { "path":"chartsVersions.json","mode":"100644","type":"blob","sha":${{ steps.chart_blob.outputs.BLOB_VALUE }}}, \
-          { "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}}, \
-          { "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}}]}' | jq '.sha')" >> $GITHUB_OUTPUT 
+            -d '{"base_tree":"${{ github.sha }}","tree":[{ "path":"chartsVersions.json","mode":"100644","type":"blob","sha":${{ steps.chart_blob.outputs.BLOB_VALUE }}},{ "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}},{ "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}}]}' | jq '.sha')" >> $GITHUB_OUTPUT 
+
 
       - name: Log Tree SHA
         run: |
@@ -137,6 +138,7 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/git/commits \
             -d '{"message":"Commit message","parents":["${{ github.sha }}"],"tree":${{ steps.create_tree.outputs.TREE_SHA }}}'
 
+
       - name: Updating ref
         run: |
           curl \
@@ -146,6 +148,7 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             PATCH https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}  \
             -d '{"sha": "${{ github.sha }}","force":true}'
+
 
 #      - name: Creating Release
 #        # You may pin to the exact commit or the version.
