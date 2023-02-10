@@ -41,9 +41,8 @@ jobs:
       - name: Status
         run: |
           git status
-          ${{ github.token }} > token.txt
-          gh auth login --with-token < token.txt
-        
+          echo ${{ github.token }} | gh auth login --with-token
+
       - name: Bump backendVersion in chartsVersions.json
         run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
         
