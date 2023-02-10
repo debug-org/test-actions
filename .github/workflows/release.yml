@@ -95,10 +95,11 @@ jobs:
       - name: Log SHA's
         run: |
           echo CHARTS_SHA ${{ steps.chart_blob.outputs.BLOB_VALUE }}
-          echo OPENAPI_JSON ${{ steps.openapi_json_blob.outputs.BLOB_VALUE }} 
+          echo OPENAPI_JSON ${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}
           echo OPENAPI_YAML ${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}
+          echo github.sha ${{ github.sha }}
 
-      - name: Create tree SHA
+      - name: Create tree
         id: create_tree
         run: |
           echo "TREE_SHA=$(curl \
@@ -123,7 +124,7 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/git/commits \
             -d '{"message":"Commit message","parents":["${{ github.sha }}"],"tree":${{ steps.create_tree.outputs.TREE_SHA }}}'
 
-      - name: SHA
+      - name: Updating ref
         run: |
           curl \
             -X PATCH \
