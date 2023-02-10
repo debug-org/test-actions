@@ -111,7 +111,7 @@ jobs:
 
       - name: Log Tree SHA
         run: |
-          echo CHARTS_SHA ${{ steps.chart_blob.outputs.TREE_SHA }}
+          echo TREE_SHA ${{ steps.create_tree.outputs.TREE_SHA }}
 
       - name: Creating Release
         # You may pin to the exact commit or the version.
