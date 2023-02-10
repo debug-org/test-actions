@@ -39,7 +39,9 @@ jobs:
  #         git config --global user.name ${{ github.actor }}
         
       - name: Status
-        run: git status
+        run: |
+          git status
+          gh auth status
         
       - name: Bump backendVersion in chartsVersions.json
         run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
