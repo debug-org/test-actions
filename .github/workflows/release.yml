@@ -106,8 +106,8 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ github.token }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
-              https://api.github.com/repos/${{ github.repository }}/git/trees \
-              -d '{ "base_tree":"${{ github.sha }}", "tree":[{ "path":"chartsVersions.json", "mode":"100644", "type":"blob", "sha":${{ steps.chart_blob.outputs.BLOB_VALUE }}}, { "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}}, { "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}}]}' | jq '.sha')" >> $GITHUB_OUTPUT
+            https://api.github.com/repos/krokhmaliuk-virtru/test-actions/git/trees \
+            -d '{"base_tree":${{ github.sha }},"tree":[{"path":"chartsVersions.json","mode":"100644","type":"blob","sha":${{ steps.chart_blob.outputs.BLOB_VALUE }}}, { "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}}, { "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}}]}' | jq '.sha')" >> $GITHUB_OUTPUT 
 
       - name: Log Tree SHA
         run: |
