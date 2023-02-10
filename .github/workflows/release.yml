@@ -92,7 +92,7 @@ jobs:
             -f encoding='base64' \
           | jq '.sha')" >> $GITHUB_OUTPUT
 
-      - name: Log SHA's
+      - name: DEBUG BLOB'S and SHA
         run: |
           echo CHARTS_SHA ${{ steps.chart_blob.outputs.BLOB_VALUE }}
           echo OPENAPI_JSON ${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}
@@ -108,7 +108,12 @@ jobs:
             -H "Authorization: Bearer ${{ github.token }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/git/trees \
-            -d '{"base_tree":"${{ github.sha }}","tree":[{"path":"chartsVersions.json","mode":"100644","type":"blob","sha":${{ steps.chart_blob.outputs.BLOB_VALUE }}}, { "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}}, { "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}}]}' | jq '.sha')" >> $GITHUB_OUTPUT 
+            -d '{ \
+          "base_tree":"${{ github.sha }}", \
+          "tree":[ \
+          { "path":"chartsVersions.json","mode":"100644","type":"blob","sha":${{ steps.chart_blob.outputs.BLOB_VALUE }}}, \
+          { "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}}, \
+          { "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}}]}' | jq '.sha')" >> $GITHUB_OUTPUT 
 
       - name: Log Tree SHA
         run: |
@@ -134,49 +139,49 @@ jobs:
             PATCH https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}  \
             -d '{"sha": "${{ github.sha }}","force":true}'
 
-      - name: Creating Release
-        # You may pin to the exact commit or the version.
-        # uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
-        uses: softprops/action-gh-release@v0.1.15
-        with:
-          # Gives the release a custom name. Defaults to tag name
-          name: OpenTDF ${{ inputs.releaseVersion }}
-
-          # Gives a tag name. Defaults to github.GITHUB_REF
-          tag_name: ${{ inputs.releaseVersion }}
-
-          # Creates a draft release. Defaults to false
-          draft: false # ${{ inputs.isDraft }}
-
-          # Identify the release as a prerelease. Defaults to false
-          prerelease: ${{ inputs.isPreRelease }}
-
-          # Note-worthy description of changes in release
-          # body: # optional
-
-          # Path to load note-worthy description of changes in release from
-          # body_path: # optional
-
-          # Newline-delimited list of path globs for asset files to upload
-          # files: # optional
-
-          # Fails if any of the `files` globs match nothing. Defaults to false
-          # fail_on_unmatched_files: # optional
-
-          # Repository to make releases against, in <owner>/<repo> format
-          # repository: # optional
-
-          # Authorized secret GitHub Personal Access Token. Defaults to github.token
-          token: ${{ github.token }}
-
-          # Commitish value that determines where the Git tag is created from. Can be any branch or commit SHA.
-          # target_commitish: # optional
-
-          # If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
-          # discussion_category_name: # optional
-
-          # Whether to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
-          generate_release_notes: true
-
-          # Append to existing body instead of overwriting it. Default is false.
-          append_body: true
+#      - name: Creating Release
+#        # You may pin to the exact commit or the version.
+#        # uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+#        uses: softprops/action-gh-release@v0.1.15
+#        with:
+#          # Gives the release a custom name. Defaults to tag name
+#          name: OpenTDF ${{ inputs.releaseVersion }}
+#
+#          # Gives a tag name. Defaults to github.GITHUB_REF
+#          tag_name: ${{ inputs.releaseVersion }}
+#
+#          # Creates a draft release. Defaults to false
+#          draft: false # ${{ inputs.isDraft }}
+#
+#          # Identify the release as a prerelease. Defaults to false
+#          prerelease: ${{ inputs.isPreRelease }}
+#
+#          # Note-worthy description of changes in release
+#          # body: # optional
+#
+#          # Path to load note-worthy description of changes in release from
+#          # body_path: # optional
+#
+#          # Newline-delimited list of path globs for asset files to upload
+#          # files: # optional
+#
+#          # Fails if any of the `files` globs match nothing. Defaults to false
+#          # fail_on_unmatched_files: # optional
+#
+#          # Repository to make releases against, in <owner>/<repo> format
+#          # repository: # optional
+#
+#          # Authorized secret GitHub Personal Access Token. Defaults to github.token
+#          token: ${{ github.token }}
+#
+#          # Commitish value that determines where the Git tag is created from. Can be any branch or commit SHA.
+#          # target_commitish: # optional
+#
+#          # If specified, a discussion of the specified category is created and linked to the release. The value must be a category that already exists in the repository. If there is already a discussion linked to the release, this parameter is ignored.
+#          # discussion_category_name: # optional
+#
+#          # Whether to automatically generate the name and body for this release. If name is specified, the specified name will be used; otherwise, a name will be automatically generated. If body is specified, the body will be pre-pended to the automatically generated notes.
+#          generate_release_notes: true
+#
+#          # Append to existing body instead of overwriting it. Default is false.
+#          append_body: true
