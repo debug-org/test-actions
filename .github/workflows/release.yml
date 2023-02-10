@@ -44,7 +44,7 @@ jobs:
           echo ${{ github.token }} | gh auth login --with-token
 
       - name: List gpg
-        run: gh gpg-key list
+        run: gh search commits --author ${{ github.actor }}
 
       - name: Bump backendVersion in chartsVersions.json
         run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
