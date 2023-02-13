@@ -37,14 +37,6 @@ jobs:
  #       run: |
  #         git config --global user.email "${{ github.actor }}@virtru.com"
  #         git config --global user.name ${{ github.actor }}
-        
-      - name: Status
-        run: |
-          git status
-          echo ${{ github.token }} | gh auth login --with-token
-
-      - name: List gpg
-        run: gh search commits --committer=${{ github.actor }}
 
       - name: Bump backendVersion in chartsVersions.json
         run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
@@ -57,6 +49,12 @@ jobs:
         
       - name: Bump version openapi-aggregate.yaml
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
+        
+      - name: Show files before blobs
+        run: |
+          cat chartsVersions.json
+          cat openapi-aggregate.json
+          cat openapi-aggregate.yaml
 
       - name: Create blob for chartsVersions.json
         env:
