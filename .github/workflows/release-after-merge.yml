@@ -1,0 +1,15 @@
+name: Create Release after PR
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - 'releases/**'
+jobs:
+  job:
+    permissions:
+      contents: write
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: echo Release after merge
