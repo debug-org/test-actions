@@ -149,7 +149,7 @@ jobs:
             -H "Authorization: Bearer ${{ github.token }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             PATCH https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}  \
-            -d '{"sha": " ${{ steps.create_commit.outputs.CREATE_COMMIT_SHA }}","force":true}'
+            -d '{"sha": ${{ steps.create_commit.outputs.CREATE_COMMIT_SHA }},"force":true}'
 
 
 #      - name: Creating Release
