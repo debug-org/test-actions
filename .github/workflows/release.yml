@@ -37,7 +37,7 @@ jobs:
  #       run: |
  #         git config --global user.email "${{ github.actor }}@virtru.com"
  #         git config --global user.name ${{ github.actor }}
-        
+
       - name: Status
         run: |
           git status
@@ -107,7 +107,6 @@ jobs:
           echo OPENAPI_YAML ${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}
           echo github.sha ${{ github.sha }}
 
-
       - name: Base tree
         run: |
           curl \
@@ -126,7 +125,7 @@ jobs:
             -H "Authorization: Bearer ${{ github.token }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/git/trees \
-            -d '{"base_tree":"${{ github.sha }}","tree":[{ "path":"chartsVersions.json","mode":"100644","type":"blob","sha":${{ steps.chart_blob.outputs.BLOB_VALUE }}},{ "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}},{ "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}}]}' | jq '.sha')" >> $GITHUB_OUTPUT 
+            -d '{"base_tree":"${{ github.sha }}","tree":[{"path": ".idea","mode": "040000","type": "tree", "sha": "b99164cbca313a071e92ebe1d87bd808518627ef","url": "https://api.github.com/repos/krokhmaliuk-virtru/test-actions/git/trees/b99164cbca313a071e92ebe1d87bd808518627ef"},{ "path":"chartsVersions.json","mode":"100644","type":"blob","sha":${{ steps.chart_blob.outputs.BLOB_VALUE }}},{"path": "main.js","mode": "100644","type": "blob","sha": "3032dea46924a1b273ee49ec1ce95eac8875e849","size": 22,"url": "https://api.github.com/repos/krokhmaliuk-virtru/test-actions/git/blobs/3032dea46924a1b273ee49ec1ce95eac8875e849"},{ "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}},{ "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}}]}' | jq '.sha')" >> $GITHUB_OUTPUT 
 
 
       - name: Log Tree SHA
