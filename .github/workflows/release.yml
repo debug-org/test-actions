@@ -43,9 +43,6 @@ jobs:
           git status
           echo ${{ github.token }} | gh auth login --with-token
 
-      - name: List gpg
-        run: gh search commits --committer=${{ github.actor }}
-
       - name: Bump backendVersion in chartsVersions.json
         run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
         
@@ -133,14 +130,15 @@ jobs:
           echo TREE_SHA ${{ steps.create_tree.outputs.TREE_SHA }}
 
       - name: Create commit
+        id: create_commit
         run: |
-          curl \
+          echo "CREATE_COMMIT_SHA=$(curl \
             -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ github.token }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/git/commits \
-            -d '{"message":"Commit message","parents":["${{ github.sha }}"],"tree":${{ steps.create_tree.outputs.TREE_SHA }}}'
+            -d '{"message":"Commit message","parents":["${{ github.sha }}"],"tree":${{ steps.create_tree.outputs.TREE_SHA }}}')" >> $GITHUB_OUTPUT
 
 
       - name: Updating ref
@@ -151,7 +149,7 @@ jobs:
             -H "Authorization: Bearer ${{ github.token }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             PATCH https://api.github.com/repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}  \
-            -d '{"sha": "${{ github.sha }}","force":true}'
+            -d '{"sha": " ${{ steps.create_commit.outputs.CREATE_COMMIT_SHA }}","force":true}'
 
 
 #      - name: Creating Release
