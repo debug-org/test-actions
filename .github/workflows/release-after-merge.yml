@@ -27,7 +27,11 @@ jobs:
           /repos/${{ github.repository }}/pulls/${{ github.event.number }} | jq '.head.ref')" >> $GITHUB_OUTPUT
 
       - name: Get Release version
+        id: version
         run: echo "VERSION=$(echo ${{ steps.chart_blob.outputs.CHARTS_SHA }} | sed -e "s/^release\///")" >> $GITHUB_OUTPUT
+
+      - name: Get version
+        run: echo ${{ steps.version.outputs.VERSION }}
 
 #        uses: softprops/action-gh-release@v0.1.15
 #        with:
