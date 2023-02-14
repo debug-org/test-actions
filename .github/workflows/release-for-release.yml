@@ -20,7 +20,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    name: Create Release
+    name: Create pull request for release
     runs-on: ubuntu-latest
     steps:
       - name: This workflow should run only main branch
