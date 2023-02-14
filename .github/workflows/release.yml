@@ -19,6 +19,7 @@ jobs:
   release:
     permissions:
       contents: write
+      pull-requests: write
     name: Create Release
     runs-on: ubuntu-latest
     steps:
