@@ -7,6 +7,7 @@ jobs:
   job:
     permissions:
       contents: write
+      pull-requests: read
     name: Create Release
     runs-on: ubuntu-latest
     steps:
