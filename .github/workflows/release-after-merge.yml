@@ -21,8 +21,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         id: release_id
         run: |
-          echo "RELEASE_REF=$(echo PR #${{ github.event.number }} has been merged
-          gh api \
+          echo "RELEASE_REF=$(gh api \
           -H "Accept: application/vnd.github+json" \
           /repos/${{ github.repository }}/pulls/${{ github.event.number }} | jq '.head.ref')" >> $GITHUB_OUTPUT
 
