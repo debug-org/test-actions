@@ -46,6 +46,8 @@ jobs:
         run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
       - name: Get refs
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           # GitHub CLI api
           # https://cli.github.com/manual/gh_api
