@@ -1,4 +1,4 @@
-name: Create Release After Pull Request
+name: Release After Pull Request
 on:
   pull_request:
     types: [closed]
@@ -21,6 +21,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo PR #${{ github.event.number }} has been merged
+          gh api \
+          -H "Accept: application/vnd.github+json" \
+          /repos/${{ github.repository }}/pulls/${{ github.event.number }}
 
 #          gh api \
 #            -H "Accept: application/vnd.github+json" \
