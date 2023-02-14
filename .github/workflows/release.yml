@@ -139,18 +139,18 @@ jobs:
             PATCH https://api.github.com/repos/${{ github.repository }}/git/refs/heads/release/${{ inputs.releaseVersion }}  \
             -d '{"sha": ${{ steps.create_commit.outputs.COMMIT_SHA }},"force":true}'
 
-#      - name: Create pull request
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        run: |
-#            gh api \
-#            --method POST \
-#            -H "Accept: application/vnd.github+json" \
-#            /repos/${{ github.repository }}/pulls \
-#            -f title='${{ inputs.releaseVersion }} Release Pull Request' \
-#            -f body='OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}' \
-#            -f head='release/${{ inputs.releaseVersion }}' \
-#            -f base='main'
+      - name: Create pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+            gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/pulls \
+            -f title='${{ inputs.releaseVersion }} Release Pull Request' \
+            -f body='OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}' \
+            -f head='release/${{ inputs.releaseVersion }}' \
+            -f base='main'
 
 
 #      - name: Base tree Main
