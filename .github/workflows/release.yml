@@ -30,20 +30,20 @@ jobs:
       - uses: dcarbone/install-yq-action@v1.1.0      
       - uses: dcarbone/install-jq-action@v1.0.1
       
-      - name: Install sponge
-        run: sudo apt-get install moreutils
-
-      - name: Bump backendVersion in chartsVersions.json
-        run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
-        
-      - name: Bump frontendVersion in chartsVersions.json
-        run:  jq '.frontendVersion = "${{ inputs.frontChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
-        
-      - name: Bump version openapi-aggregate.json
-        run:  jq '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.json | sponge openapi-aggregate.json
-        
-      - name: Bump version openapi-aggregate.yaml
-        run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
+#      - name: Install sponge
+#        run: sudo apt-get install moreutils
+#
+#      - name: Bump backendVersion in chartsVersions.json
+#        run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
+#
+#      - name: Bump frontendVersion in chartsVersions.json
+#        run:  jq '.frontendVersion = "${{ inputs.frontChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
+#
+#      - name: Bump version openapi-aggregate.json
+#        run:  jq '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.json | sponge openapi-aggregate.json
+#
+#      - name: Bump version openapi-aggregate.yaml
+#        run:  yq -i '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.yaml
 
       - name: Get refs
         env:
@@ -54,7 +54,7 @@ jobs:
             
           gh api \
           -H "Accept: application/vnd.github+json" \
-          /repos/${{ github.repository }}/git/matching-refs/REF
+          /repos/${{ github.repository }}/git/matching-refs/heads
 
 #      - name: Create blob for chartsVersions.json
 #        env:
