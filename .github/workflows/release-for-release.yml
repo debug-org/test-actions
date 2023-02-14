@@ -1,4 +1,4 @@
-name: Create Release
+name: Create Pull Request For Release
 on:
   workflow_dispatch:
     inputs:
@@ -16,7 +16,7 @@ on:
         description: 'Create release candidate'
         required: true
 jobs:
-  release:
+  release-pull-request-job:
     permissions:
       contents: write
       pull-requests: write
@@ -108,14 +108,14 @@ jobs:
             https://api.github.com/repos/${{ github.repository }}/git/trees \
             -d '{"base_tree":"${{ github.sha }}","tree":[{ "path":"chartsVersions.json","mode":"100644","type":"blob","sha":${{ steps.chart_blob.outputs.CHARTS_SHA }}},{ "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.OPEN_API_JSON_SHA }}},{ "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.OPEN_API_YAML_SHA }}}]}' | jq '.sha')" >> $GITHUB_OUTPUT
 
-      - name: DEBUG BLOB'S and SHA
-        run: |
-          echo CHARTS_SHA ${{ steps.chart_blob.outputs.CHARTS_SHA }}
-          echo OPENAPI_JSON ${{ steps.openapi_json_blob.outputs.OPEN_API_JSON_SHA }}
-          echo OPENAPI_YAML ${{ steps.openapi_yaml_blob.outputs.OPEN_API_YAML_SHA }}
-          echo CREATED REF ${{ steps.created_ref.outputs.CREATED_REF_SHA }}
-          echo CREATED TREE ${{ steps.create_tree.outputs.CREATED_TREE_SHA }}
-          echo github.sha ${{ github.sha }}
+#      - name: DEBUG BLOB'S and SHA
+#        run: |
+#          echo CHARTS_SHA ${{ steps.chart_blob.outputs.CHARTS_SHA }}
+#          echo OPENAPI_JSON ${{ steps.openapi_json_blob.outputs.OPEN_API_JSON_SHA }}
+#          echo OPENAPI_YAML ${{ steps.openapi_yaml_blob.outputs.OPEN_API_YAML_SHA }}
+#          echo CREATED REF ${{ steps.created_ref.outputs.CREATED_REF_SHA }}
+#          echo CREATED TREE ${{ steps.create_tree.outputs.CREATED_TREE_SHA }}
+#          echo github.sha ${{ github.sha }}
 
       - name: Create commit
         id: create_commit
