@@ -103,12 +103,14 @@ jobs:
 
 
 
-#      - name: DEBUG BLOB'S and SHA
-#        run: |
-#          echo CHARTS_SHA ${{ steps.chart_blob.outputs.BLOB_VALUE }}
-#          echo OPENAPI_JSON ${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}
-#          echo OPENAPI_YAML ${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}
-#          echo github.sha ${{ github.sha }}
+      - name: DEBUG BLOB'S and SHA
+        run: |
+          echo CHARTS_SHA ${{ steps.chart_blob.outputs.BLOB_VALUE }}
+          echo OPENAPI_JSON ${{ steps.openapi_json_blob.outputs.BLOB_VALUE }}
+          echo OPENAPI_YAML ${{ steps.openapi_yaml_blob.outputs.BLOB_VALUE }}
+          echo github.sha ${{ github.sha }}
+          echo github.sha ${{ github.sha }}
+          echo created_ref ${{ steps.created_ref.outputs.CREATED_REF }}
 
       - name: Base tree Main
         run: |
