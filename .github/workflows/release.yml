@@ -54,7 +54,7 @@ jobs:
             
           gh api \
           -H "Accept: application/vnd.github+json" \
-          /repos/OWNER/REPO/git/matching-refs/REF
+          /repos/${{ github.repository }}/git/matching-refs/REF
 
 #      - name: Create blob for chartsVersions.json
 #        env:
