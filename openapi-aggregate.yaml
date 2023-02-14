@@ -14,29 +14,7 @@ externalDocs:
   url: 'https://developer.virtru.com/'
 tags:
   - name: Attributes
-    description: >-
-      Operations to view data attributes. TDF protocol supports ABAC (Attribute Based Access Control).
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              This allows TDF protocol to implement policy driven and highly scalable access control mechanism.
+    description: Operations to view data attributes. TDF protocol supports ABAC (Attribute Based Access Control). This allows TDF protocol to implement policy driven and highly scalable access control mechanism.
   - name: Authorities
     description: Operations to view and create attribute authorities.
   - name: Attributes Definitions
