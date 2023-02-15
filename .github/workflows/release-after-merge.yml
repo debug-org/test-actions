@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [closed]
     branches:
-      - 'release/**'
+      - main
 jobs:
   job:
     permissions:
@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Creating Release
-        run: echo "Create new release ${{ github.sha }}"
+        run: echo "Create new release ${{ github.sha }}" ${{ github.ref_name }}
 
       - name: Get Release
         env:
