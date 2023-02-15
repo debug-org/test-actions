@@ -144,7 +144,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             /repos/${{ github.repository }}/pulls \
             -f title='${{ inputs.releaseVersion }} Release' \
-            -f body='- [ ] Create release candidateCreate release candidate' \
+            -f body='- [ ] Create release' \
             -f head='release/${{ inputs.releaseVersion }}' \
             -f base='main'
 
