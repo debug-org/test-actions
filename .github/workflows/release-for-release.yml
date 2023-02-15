@@ -24,7 +24,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    name: Create pull request for release
+    name: "Create pull request for $BRANCH_PREFIX"
     runs-on: ubuntu-latest
     steps:
       - name: Log status
