@@ -11,10 +11,10 @@ on:
       backChartVersion:
         description: 'Back-end chart version'
         required: true
-      isPreRelease:
-        type: boolean
-        description: 'Create release candidate'
-        required: true
+#      isPreRelease:
+#        type: boolean
+#        description: 'Create release candidate'
+#        required: true
 
 env:
   BRANCH_PREFIX: ${{ inputs.isPreRelease && 'pre-release' || 'release'  }}
