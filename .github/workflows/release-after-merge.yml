@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Creating Release
-        run: echo "Create new release ${{ github.sha }}" ${{ github.ref_name }} ${{ github.head_ref }}
+        run: echo "Create new release ${{ github.sha }}"
 
       - name: Get Release
         env:
@@ -24,6 +24,15 @@ jobs:
           echo "RELEASE_REF=$(gh api \
           -H "Accept: application/vnd.github+json" \
           /repos/${{ github.repository }}/pulls/${{ github.event.number }} | jq '.head.ref')" >> $GITHUB_OUTPUT
+
+      - name: Get Release body
+        env:
+          GH_TOKEN: ${{ github.token }}
+        id: release_body_id
+        run: |
+          echo "RELEASE_BODY=$(gh api \
+          -H "Accept: application/vnd.github+json" \
+          /repos/${{ github.repository }}/pulls/${{ github.event.number }} | jq '.body')" >> $GITHUB_OUTPUT
 
       - name: Get Release version
         id: version
@@ -45,7 +54,7 @@ jobs:
           draft: false # ${{ inputs.isDraft }}
 
           # Identify the release as a prerelease. Defaults to false
-          prerelease: ${{ inputs.isPreRelease }}
+          prerelease: ${{ startsWith(steps.release_body_id.outputs.RELEASE_BODY, '- [x]') }}
 
           # Note-worthy description of changes in release
           # body: # optional

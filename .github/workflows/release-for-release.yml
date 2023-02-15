@@ -11,10 +11,6 @@ on:
       backChartVersion:
         description: 'Back-end chart version'
         required: true
-      isPreRelease:
-        type: boolean
-        description: 'Create release candidate'
-        required: true
 jobs:
   release-pull-request-job:
     permissions:
@@ -147,8 +143,8 @@ jobs:
             --method POST \
             -H "Accept: application/vnd.github+json" \
             /repos/${{ github.repository }}/pulls \
-            -f title='${{ inputs.releaseVersion }} Release Pull Request' \
-            -f body='OpenTDF ${{ inputs.releaseVersion }} with charts frontend ${{ inputs.frontChartVersion }}, backend ${{ inputs.backChartVersion }}' \
+            -f title='${{ inputs.releaseVersion }} Release' \
+            -f body='- [] Create release candidate' \
             -f head='release/${{ inputs.releaseVersion }}' \
             -f base='main'
 
