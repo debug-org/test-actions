@@ -10,7 +10,7 @@ jobs:
       contents: write
       pull-requests: read
     name: Create Release
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
+    if: github.event.pull_request.merged == true && (startsWith(github.head_ref, 'release/') || startsWith(github.head_ref, 'pre-release/'))
     runs-on: ubuntu-latest
     steps:
       - name: Creating Release
@@ -54,7 +54,7 @@ jobs:
           draft: false # ${{ inputs.isDraft }}
 
           # Identify the release as a prerelease. Defaults to false
-          prerelease: ${{ startsWith(steps.release_body_id.outputs.RELEASE_BODY, '- [x] ') }}
+          prerelease: ${{ startsWith(github.head_ref, 'pre-release/') }}
 
           # Note-worthy description of changes in release
           # body: # optional
