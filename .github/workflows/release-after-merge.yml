@@ -27,7 +27,7 @@ jobs:
 
       - name: Get Release version
         id: version
-        run: echo "VERSION=$(echo ${{ steps.chart_blob.outputs.CHARTS_SHA }} | sed -e "s/^release\///")" >> $GITHUB_OUTPUT
+        run: echo "VERSION=$(echo ${{ steps.release_id.outputs.RELEASE_REF }} | sed -e "s/^release\///")" >> $GITHUB_OUTPUT
 
       - name: Get version
         run: echo ${{ steps.version.outputs.VERSION }}
