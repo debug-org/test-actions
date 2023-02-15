@@ -29,6 +29,7 @@ jobs:
     steps:
       - name: Log status
         run: echo $BRANCH_PREFIX
+
       - name: This workflow should run only main branch
         if: github.ref_name != 'main'
         run: echo This workflow should run only main branch. Current branch is "${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY && exit 1
