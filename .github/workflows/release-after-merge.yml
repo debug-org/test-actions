@@ -4,13 +4,14 @@ on:
     types: [closed]
     branches:
       - main
+      - 'release/**'
 jobs:
   job:
     permissions:
       contents: write
       pull-requests: read
     name: Create Release
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Creating Release
