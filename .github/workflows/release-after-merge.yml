@@ -10,11 +10,11 @@ jobs:
       contents: write
       pull-requests: read
     name: Create Release
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
     steps:
       - name: Creating Release
-        run: echo "Create new release ${{ github.sha }}" ${{ github.ref_name }}
+        run: echo "Create new release ${{ github.sha }}" ${{ github.ref_name }} ${{ github.head_ref }}
 
       - name: Get Release
         env:
