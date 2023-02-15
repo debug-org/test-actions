@@ -54,7 +54,7 @@ jobs:
           draft: false # ${{ inputs.isDraft }}
 
           # Identify the release as a prerelease. Defaults to false
-          prerelease: ${{ startsWith(steps.release_body_id.outputs.RELEASE_BODY, '- [x]') }}
+          prerelease: ${{ startsWith(steps.release_body_id.outputs.RELEASE_BODY, '- [x] ') }}
 
           # Note-worthy description of changes in release
           # body: # optional
