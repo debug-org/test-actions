@@ -7,17 +7,16 @@ on:
         required: true
       frontChartVersion:
         description: 'Front-end chart version'
-        required: true
       backChartVersion:
         description: 'Back-end chart version'
         required: true
       isPreRelease:
         type: boolean
         description: 'Create release candidate'
-        required: true
 
 env:
   BRANCH_PREFIX: ${{ inputs.isPreRelease && 'pre-release' || 'release'  }}
+  RELEASE_STATUS: ${{ inputs.isPreRelease && 'Release candidate' || 'Release'  }}
 
 jobs:
   release-pull-request-job:
@@ -27,9 +26,6 @@ jobs:
     name: Create pull request for release
     runs-on: ubuntu-latest
     steps:
-      - name: Log status
-        run: echo $BRANCH_PREFIX
-
       - name: This workflow should run only main branch
         if: github.ref_name != 'main'
         run: echo This workflow should run only main branch. Current branch is "${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY && exit 1
@@ -148,7 +144,7 @@ jobs:
           --method POST \
           -H "Accept: application/vnd.github+json" \
           /repos/${{ github.repository }}/pulls \
-          -f title='${{ inputs.releaseVersion }} Release' \
-          -f body='- [ ] Create release' \
+          -f title="${{ inputs.releaseVersion }} ${{ env.RELEASE_STATUS }}" \
+          -f body='${{ env.RELEASE_STATUS }}' \
           -f head="$BRANCH_PREFIX/${{ inputs.releaseVersion }}" \
           -f base='main'
