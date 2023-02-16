@@ -52,12 +52,16 @@ jobs:
           -f sha=${{ github.sha }} | jq '.object.sha')" >> $GITHUB_OUTPUT
 
       - name: Bump backendVersion in chartsVersions.json
-        if: ${{ inputs.backChartVersion != '' }}
-        run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
+        id: back_chart_version
+        run: |
+          jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
+          echo "VERSION=$(jq '.backChartVersion' chartsVersions.json)"  >> $GITHUB_OUTPUT
 
       - name: Bump frontendVersion in chartsVersions.json
-        if: ${{ inputs.frontChartVersion != '' }}
-        run:  jq '.frontendVersion = "${{ inputs.frontChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
+        id: front_chart_version
+        run:  |
+          jq '.frontendVersion = "${{ inputs.frontChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
+          echo "VERSION=$(jq '.frontendVersion' chartsVersions.json)"  >> $GITHUB_OUTPUT
 
       - name: Bump version openapi-aggregate.json
         run:  jq '.info.version = "${{ inputs.releaseVersion }}"' openapi-aggregate.json | sponge openapi-aggregate.json
@@ -127,8 +131,8 @@ jobs:
       - name: Create commit
         id: create_commit
         env:
-          currentFrontChartVersion: ${{ inputs.frontChartVersion }} || jq '.frontendVersion' chartsVersions.json
-          currentBackChartVersion: ${{ inputs.backChartVersion }} || jq '.backendVersion' chartsVersions.json
+          FRONT: ${{ inputs.frontChartVersion || steps.front_chart_version.outputs.VERSION }}
+          BACK: ${{ inputs.backChartVersion || steps.back_chart_version.outputs.VERSION }}
         run: |
           echo "COMMIT_SHA=$(curl \
             -X POST \
@@ -136,7 +140,7 @@ jobs:
             -H "Authorization: Bearer ${{ github.token }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/git/commits \
-            -d '{"message":"⬆️ OpenTDF ${{ inputs.releaseVersion }} with charts frontend $currentFrontChartVersion, backend $currentBackChartVersion","parents":[${{ steps.created_ref.outputs.CREATED_REF_SHA }}],"tree":${{ steps.create_tree.outputs.CREATED_TREE_SHA }}}' | jq '.sha')" >> $GITHUB_OUTPUT
+            -d '{"message":"⬆️ OpenTDF ${{ inputs.releaseVersion }} with charts frontend $FRONT, backend $BACK","parents":[${{ steps.created_ref.outputs.CREATED_REF_SHA }}],"tree":${{ steps.create_tree.outputs.CREATED_TREE_SHA }}}' | jq '.sha')" >> $GITHUB_OUTPUT
 
 
       - name: Updating ref
