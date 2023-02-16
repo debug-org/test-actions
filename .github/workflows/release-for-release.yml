@@ -48,7 +48,7 @@ jobs:
           --method POST \
           -H "Accept: application/vnd.github+json" \
           /repos/${{ github.repository }}/git/refs \
-          -f ref="refs/heads/$BRANCH_PREFIX/${{ inputs.releaseVersion }}" \
+          -f ref="refs/heads/release/${{ inputs.releaseVersion }}" \
           -f sha=${{ github.sha }} | jq '.object.sha')" >> $GITHUB_OUTPUT
 
       - name: Bump backendVersion in chartsVersions.json
@@ -149,7 +149,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ github.token }}"\
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            PATCH "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/$BRANCH_PREFIX/${{ inputs.releaseVersion }}"  \
+            PATCH "https://api.github.com/repos/${{ github.repository }}/git/refs/heads/release/${{ inputs.releaseVersion }}"  \
             -d '{"sha": ${{ steps.create_commit.outputs.COMMIT_SHA }},"force":true}'
 
       - name: Create pull request
@@ -162,5 +162,5 @@ jobs:
             /repos/${{ github.repository }}/pulls \
             -f title='${{ inputs.releaseVersion }} Release' \
             -f body='- [ ] Create release' \
-            -f head="$BRANCH_PREFIX/${{ inputs.releaseVersion }}" \
+            -f head="release/${{ inputs.releaseVersion }}" \
             -f base='main'
