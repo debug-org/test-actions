@@ -36,9 +36,12 @@ jobs:
 
       - name: Get Release version
         id: version
+        env:
+          condition: ${{ startsWith(github.head_ref, 'release/') }}
+          ref: ${{ steps.release_id.outputs.RELEASE_REF }}
         run: |
 #          echo "VERSION=$(echo ${{ steps.release_id.outputs.RELEASE_REF }} | sed -e "s/^release\///")" >> $GITHUB_OUTPUT
-          echo "VERSION=$(${{ startsWith(github.head_ref, 'release/') }} && echo ${{ steps.release_id.outputs.RELEASE_REF }} | sed -e "s/^release\///" || echo ${{ steps.release_id.outputs.RELEASE_REF }} | sed -e "s/^pre-release\///" )" >> $GITHUB_OUTPUT
+          echo "VERSION=$($condition && echo $ref | sed -e "s/^release\///" || echo $ref | sed -e "s/^pre-release\///" )" >> $GITHUB_OUTPUT
 
       - name: Get version
         run: echo ${{ steps.version.outputs.VERSION }}
