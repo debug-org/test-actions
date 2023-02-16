@@ -54,13 +54,13 @@ jobs:
       - name: Bump backendVersion in chartsVersions.json
         id: back_chart_version
         run: |
-          jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
+          ${{ inputs.backChartVersion }} && jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
           echo "VERSION=$(jq '.backendVersion' chartsVersions.json)" >> $GITHUB_OUTPUT
 
       - name: Bump frontendVersion in chartsVersions.json
         id: front_chart_version
         run:  |
-          jq '.frontendVersion = "${{ inputs.frontChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
+          ${{ inputs.frontChartVersion }} && jq '.frontendVersion = "${{ inputs.frontChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
           echo "VERSION=$(jq '.frontendVersion' chartsVersions.json)" >> $GITHUB_OUTPUT
 
       - name: Bump version openapi-aggregate.json
