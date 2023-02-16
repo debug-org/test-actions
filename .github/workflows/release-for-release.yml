@@ -127,8 +127,8 @@ jobs:
       - name: Create commit
         id: create_commit
         env:
-          currentFrontChartVersion: ${{ jq '.frontendVersion' chartsVersions.json }}
-          currentBackChartVersion: ${{ jq '.backendVersion' chartsVersions.json }}
+          currentFrontChartVersion: jq '.frontendVersion' chartsVersions.json
+          currentBackChartVersion: jq '.backendVersion' chartsVersions.json
         run: |
           echo $currentFrontChartVersion
           echo $currentBackChartVersion
