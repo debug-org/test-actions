@@ -127,8 +127,8 @@ jobs:
       - name: Create commit
         id: create_commit
         env:
-          currentFrontChartVersion: ${{ inputs.frontChartVersion || jq '.frontendVersion' chartsVersions.json }}
-          currentBackChartVersion: ${{ inputs.backChartVersion || jq '.backendVersion' chartsVersions.json }}
+          currentFrontChartVersion: ${{ inputs.frontChartVersion }} || jq '.frontendVersion' chartsVersions.json
+          currentBackChartVersion: ${{ inputs.backChartVersion }} || jq '.backendVersion' chartsVersions.json
         run: |
           echo "COMMIT_SHA=$(curl \
             -X POST \
