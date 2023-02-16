@@ -130,7 +130,6 @@ jobs:
 
       - name: Create commit
         id: create_commit
-        env:
         run: |
           echo "COMMIT_SHA=$(curl \
             -X POST \
