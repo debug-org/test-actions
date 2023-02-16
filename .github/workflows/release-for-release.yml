@@ -55,7 +55,7 @@ jobs:
         id: back_chart_version
         run: |
           jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
-          echo "VERSION=$(jq '.backChartVersion' chartsVersions.json)" >> $GITHUB_OUTPUT
+          echo "VERSION=$(jq '.backendVersion' chartsVersions.json)" >> $GITHUB_OUTPUT
 
       - name: Bump frontendVersion in chartsVersions.json
         id: front_chart_version
