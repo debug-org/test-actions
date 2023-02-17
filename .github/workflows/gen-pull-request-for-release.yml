@@ -143,7 +143,11 @@ jobs:
           blob_tree=${blob_tree:1}
           
           # Print the resulting string
-          echo "$blob_tree"
+          echo "TREE_BLOB=$blob_tree" >> $GITHUB_ENV
+
+      - name: Log blob
+        run: |
+          echo ${{ env.TREE_BLOB }}
 
 
 #      - name: Create tree
