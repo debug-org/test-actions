@@ -36,17 +36,17 @@ jobs:
       - name: Install sponge
         run: sudo apt-get install moreutils
 
-#      - name: Create new ref
-#        id: created_ref
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        run: |
-#          echo "CREATED_REF_SHA=$(gh api \
-#          --method POST \
-#          -H "Accept: application/vnd.github+json" \
-#          /repos/${{ github.repository }}/git/refs \
-#          -f ref="refs/heads/$BRANCH_PREFIX/${{ inputs.releaseVersion }}" \
-#          -f sha=${{ github.sha }} | jq '.object.sha')" >> $GITHUB_OUTPUT
+      - name: Create new ref
+        id: created_ref
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "CREATED_REF_SHA=$(gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          /repos/${{ github.repository }}/git/refs \
+          -f ref="refs/heads/$BRANCH_PREFIX/${{ inputs.releaseVersion }}" \
+          -f sha=${{ github.sha }} | jq '.object.sha')" >> $GITHUB_OUTPUT
 
       - name: Bump backendVersion in chartsVersions.json
         if: inputs.backChartVersion != ''
