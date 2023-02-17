@@ -49,11 +49,11 @@ jobs:
 #          -f sha=${{ github.sha }} | jq '.object.sha')" >> $GITHUB_OUTPUT
 
       - name: Bump backendVersion in chartsVersions.json
-        if: {{ inputs.backChartVersion != '' }}
+        if: inputs.backChartVersion != ''
         run: jq '.backendVersion = "${{ inputs.backChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
 
       - name: Bump frontendVersion in chartsVersions.json
-        if: {{ inputs.frontChartVersion != '' }}
+        if: inputs.frontChartVersion != ''
         run:  jq '.frontendVersion = "${{ inputs.frontChartVersion }}"' chartsVersions.json | sponge chartsVersions.json
 
       - name: Bump version openapi-aggregate.json
