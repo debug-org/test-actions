@@ -135,7 +135,7 @@ jobs:
           
           # Conditionally add a JSON object to the array
           if [ "${{ inputs.frontChartVersion }}" != '' ] || [ "${{ inputs.backChartVersion }}" != '' ]; then
-            raw_array+=('[{ "path":"chartsVersions.json","mode":"100644","type":"blob","sha":"'"${{ steps.chart_blob.outputs.CHARTS_SHA }}"'"}]')
+            raw_array+=('{ "path":"chartsVersions.json","mode":"100644","type":"blob","sha":"${{ steps.chart_blob.outputs.CHARTS_SHA }}"}')
           fi
           
           # Join the array elements together into a single string
