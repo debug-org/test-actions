@@ -66,10 +66,10 @@ jobs:
         run: |
           if [ "${{ inputs.frontChartVersion }}" != '' ]; then
             echo "Setting FRONT_VERSION from input"
-            echo "export FRONT_VERSION='${{ inputs.frontChartVersion }}'" >> $GITHUB_ENV
+            echo "FRONT_VERSION='${{ inputs.frontChartVersion }}'" >> $GITHUB_ENV
           else
             echo "Setting FRONT_VERSION from chartsVersions.json"
-            echo "export FRONT_VERSION=$(jq -r '.frontendVersion' chartsVersions.json)" >> $GITHUB_ENV
+            echo "FRONT_VERSION=$(jq -r '.frontendVersion' chartsVersions.json)" >> $GITHUB_ENV
           fi
 
       - name: Log
