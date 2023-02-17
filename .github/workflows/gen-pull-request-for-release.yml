@@ -82,10 +82,10 @@ jobs:
             echo "BACK_CHART_VERSION=$(jq -r '.backChartVersion' chartsVersions.json)" >> $GITHUB_ENV
           fi
 
-       - name: Log
-         run: |
-           echo ${{ env.FRONT_CHART_VERSION }}
-           echo ${{ env.BACK_CHART_VERSION }}
+      - name: Log
+        run: |
+          echo ${{ env.FRONT_CHART_VERSION }}
+          echo ${{ env.BACK_CHART_VERSION }}
 
 #      - name: Create blob for chartsVersions.json
 #        if: inputs.frontChartVersion != '' || inputs.backChartVersion != ''
