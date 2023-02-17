@@ -87,54 +87,64 @@ jobs:
           echo ${{ env.FRONT_CHART_VERSION }}
           echo ${{ env.BACK_CHART_VERSION }}
 
-#      - name: Create blob for chartsVersions.json
-#        if: inputs.frontChartVersion != '' || inputs.backChartVersion != ''
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        id: chart_blob
-#        run: |
-#          echo "CHARTS_SHA=$(gh api \
-#            --method POST \
-#            -H "Accept: application/vnd.github+json" \
-#            /repos/${{ github.repository }}/git/blobs \
-#            -f content="$(base64 chartsVersions.json)" \
-#            -f encoding='base64' \
-#          | jq '.sha')" >> $GITHUB_OUTPUT
-#
-#      - name: Create blob for openapi-aggregate.json
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        id: openapi_json_blob
-#        run: |
-#          echo "OPEN_API_JSON_SHA=$(gh api \
-#            --method POST \
-#            -H "Accept: application/vnd.github+json" \
-#            /repos/${{ github.repository }}/git/blobs \
-#            -f content="$(base64 openapi-aggregate.json)" \
-#            -f encoding='base64' \
-#          | jq '.sha')" >> $GITHUB_OUTPUT
-#
-#      - name: Create blob for openapi-aggregate.yaml
-#        env:
-#          GH_TOKEN: ${{ github.token }}
-#        id: openapi_yaml_blob
-#        run: |
-#          echo "OPEN_API_YAML_SHA=$(gh api \
-#            --method POST \
-#            -H "Accept: application/vnd.github+json" \
-#            /repos/${{ github.repository }}/git/blobs \
-#            -f content="$(base64 openapi-aggregate.yaml)" \
-#            -f encoding='base64' \
-#          | jq '.sha')" >> $GITHUB_OUTPUT
+      - name: Create blob for chartsVersions.json
+        if: inputs.frontChartVersion != '' || inputs.backChartVersion != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        id: chart_blob
+        run: |
+          echo "CHARTS_SHA=$(gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/git/blobs \
+            -f content="$(base64 chartsVersions.json)" \
+            -f encoding='base64' \
+          | jq '.sha')" >> $GITHUB_OUTPUT
 
-#      - name: Create Blob tree
-#        run: |
-#          raw_array=[{ "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_json_blob.outputs.OPEN_API_JSON_SHA }}},{ "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":${{ steps.openapi_yaml_blob.outputs.OPEN_API_YAML_SHA }}}]
-#          if [ "${{ inputs.frontChartVersion }}" != '' || "${{ inputs.backChartVersion != '' }}" ]; then
-#            raw_array+=({ "path":"chartsVersions.json","mode":"100644","type":"blob","sha":${{ steps.chart_blob.outputs.CHARTS_SHA }}})
-#          fi
-#          echo $raw_array
-#
+      - name: Create blob for openapi-aggregate.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+        id: openapi_json_blob
+        run: |
+          echo "OPEN_API_JSON_SHA=$(gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/git/blobs \
+            -f content="$(base64 openapi-aggregate.json)" \
+            -f encoding='base64' \
+          | jq '.sha')" >> $GITHUB_OUTPUT
+
+      - name: Create blob for openapi-aggregate.yaml
+        env:
+          GH_TOKEN: ${{ github.token }}
+        id: openapi_yaml_blob
+        run: |
+          echo "OPEN_API_YAML_SHA=$(gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository }}/git/blobs \
+            -f content="$(base64 openapi-aggregate.yaml)" \
+            -f encoding='base64' \
+          | jq '.sha')" >> $GITHUB_OUTPUT
+
+      - name: Create Blob tree
+        run: |
+          # Define an array of JSON objects, enclosed in quotes
+          raw_array=('[{ "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":"'"${{ steps.openapi_json_blob.outputs.OPEN_API_JSON_SHA }}"'"}]'
+                     '[{ "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":"'"${{ steps.openapi_yaml_blob.outputs.OPEN_API_YAML_SHA }}"'"}]')
+          
+          # Conditionally add a JSON object to the array
+          if [ "${{ inputs.frontChartVersion }}" != '' ] || [ "${{ inputs.backChartVersion }}" != '' ]; then
+            raw_array+=('[{ "path":"chartsVersions.json","mode":"100644","type":"blob","sha":"'"${{ steps.chart_blob.outputs.CHARTS_SHA }}"'"}]')
+          fi
+          
+          # Join the array elements together into a single string
+          blob_tree=$(printf ",%s" "${raw_array[@]}")
+          blob_tree=${blob_tree:1}
+          
+          # Print the resulting string
+          echo "$blob_tree"
+
 
 #      - name: Create tree
 #        id: create_tree
