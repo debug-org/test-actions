@@ -64,7 +64,7 @@ jobs:
 
       - name: Setting FRONT_CHART_VERSION
         run: |
-          if [ "${{ inputs.frontChartVersion }}" != '' ]; then
+          if [ "${{ inputs.frontChartVersion }}" != "" ]; then
             echo "Setting FRONT_CHART_VERSION from input"
             echo "FRONT_CHART_VERSION='${{ inputs.frontChartVersion }}'" >> $GITHUB_ENV
           else
@@ -74,7 +74,7 @@ jobs:
 
       - name: Setting BACK_CHART_VERSION
         run: |
-          if [ "${{ inputs.backChartVersion }}" != '' ]; then
+          if [ "${{ inputs.backChartVersion }}" != "" ]; then
             echo "Setting BACK_CHART_VERSION from input"
             echo "BACK_CHART_VERSION='${{ inputs.backChartVersion }}'" >> $GITHUB_ENV
           else
