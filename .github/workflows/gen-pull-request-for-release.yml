@@ -79,7 +79,7 @@ jobs:
             echo "BACK_CHART_VERSION='${{ inputs.backChartVersion }}'" >> $GITHUB_ENV
           else
             echo "Setting BACK_CHART_VERSION from chartsVersions.json"
-            echo "BACK_CHART_VERSION=$(jq -r '.backChartVersion' chartsVersions.json)" >> $GITHUB_ENV
+            echo "BACK_CHART_VERSION=$(jq -r '.backendVersion' chartsVersions.json)" >> $GITHUB_ENV
           fi
 
       - name: Log
