@@ -130,8 +130,8 @@ jobs:
       - name: Create Blob tree
         run: |
           # Define an array of JSON objects, enclosed in quotes
-          raw_array=('[{ "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":"'"${{ steps.openapi_json_blob.outputs.OPEN_API_JSON_SHA }}"'"}]'
-                     '[{ "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":"'"${{ steps.openapi_yaml_blob.outputs.OPEN_API_YAML_SHA }}"'"}]')
+          raw_array=('[{ "path":"openapi-aggregate.json", "mode":"100644", "type":"blob", "sha":"'"${{ steps.openapi_json_blob.outputs.OPEN_API_JSON_SHA }}"'"},'
+                     '{ "path":"openapi-aggregate.yaml", "mode":"100644", "type":"blob", "sha":"'"${{ steps.openapi_yaml_blob.outputs.OPEN_API_YAML_SHA }}"'"}]')
           
           # Conditionally add a JSON object to the array
           if [ "${{ inputs.frontChartVersion }}" != '' ] || [ "${{ inputs.backChartVersion }}" != '' ]; then
