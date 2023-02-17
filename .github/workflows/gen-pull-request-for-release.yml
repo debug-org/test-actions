@@ -64,14 +64,17 @@ jobs:
 
       - name: Condition
         run: |
-          if [ ${{ inputs.frontChartVersion != '' }} ]; then
-            export FRONT_VERSION="${{ inputs.frontChartVersion }}"
+          if [ "${{ inputs.frontChartVersion }}" != '' ]; then
+            echo "Setting FRONT_VERSION from input"
+            echo "export FRONT_VERSION='${{ inputs.frontChartVersion }}'" >> $GITHUB_ENV
           else
-            export FRONT_VERSION="$(jq '.frontendVersion' chartsVersions.json)"
+            echo "Setting FRONT_VERSION from chartsVersions.json"
+            echo "export FRONT_VERSION=$(jq -r '.frontendVersion' chartsVersions.json)" >> $GITHUB_ENV
           fi
 
       - name: Log
-        run: echo $FRONT_VERSION
+        run: |
+          echo "FRONT_VERSION=$FRONT_VERSION"
 
 #      - name: Create blob for chartsVersions.json
 #        env:
