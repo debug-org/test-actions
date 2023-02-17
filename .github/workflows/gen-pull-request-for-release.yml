@@ -65,9 +65,9 @@ jobs:
       - name: Condition
         run: |
           if [ ${{ inputs.frontChartVersion != '' }} ]; then
-            export FRONT_VERSION="$(jq '.frontendVersion' chartsVersions.json)"
+            export FRONT_VERSION="${{ inputs.frontChartVersion }}"
           else
-            export FRONT_VERSION=${{ inputs.frontChartVersion }}
+            export FRONT_VERSION="$(jq '.frontendVersion' chartsVersions.json)"
           fi
 
       - name: Log
