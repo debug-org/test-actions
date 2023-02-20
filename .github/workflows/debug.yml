@@ -13,18 +13,4 @@ jobs:
   debug-logs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: "3.9"
-          cache: "pip"
-      - uses: yokawasa/action-setup-kube-tools@v0.9.2
-        with:
-          setup-tools: |
-            kubectl
-            helm
-            tilt
-          # This should be in sync with the minikube-deployed kube version below
-          kubectl: "1.23.3"
-          helm: "3.8.1"
-          tilt: "0.26.3"
+      - uses: actions/checkout@v2
