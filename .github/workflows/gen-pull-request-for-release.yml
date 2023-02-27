@@ -39,7 +39,7 @@ jobs:
       - name: Create new ref
         id: created_ref
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         run: |
           echo "CREATED_REF_SHA=$(gh api \
           --method POST \
