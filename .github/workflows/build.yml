@@ -42,7 +42,7 @@ jobs:
               issue_number: issue_number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '⚠️ The `permissions` in `manifest.json` have been modified. Please review the changes carefully ⚠️'
+              body: '⚠️ !The `permissions` in `manifest.json` have been modified. Please review the changes carefully ⚠️'
             })
 
 
