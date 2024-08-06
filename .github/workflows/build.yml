@@ -6,6 +6,7 @@ name: Debug GHA
 on:
   pull_request:
     branches:
+      - main
       - develop
       - 'staging*'
       - 'beta*'
