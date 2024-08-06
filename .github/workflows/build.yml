@@ -5,12 +5,9 @@ name: Debug GHA
 
 on:
   pull_request:
+    types: [opened, reopened]
     branches:
       - main
-      - develop
-      - 'staging*'
-      - 'beta*'
-      - 'stable*'
 
 jobs:
   manifest-permissions-changes-check:
