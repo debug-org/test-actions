@@ -1,48 +1,74 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Debug GHA
+name: Scheduled regression run for develop
 
 on:
-  pull_request:
-    branches:
-      - main
-      - develop
-      - 'staging*'
-      - 'beta*'
-      - 'stable*'
+  schedule:
+    - cron: '*/5 * * * *' 
+
 
 jobs:
-  manifest-permissions-changes-check:
-    needs: set-build-params
+  build:
     name: Check manifest.json permissions
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/github-script@v7
-        #        if: '${{ env.permissions_changed == 'true' }}'
         with:
           script: |
-            const issues = await github.rest.pulls.list({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
-            })
+              const refMap = {
+                push: process.env.REF_NAME,
+                workflow_dispatch: process.env.REF_NAME,
+                pull_request: process.env.HEAD_REF,
+              };
+
+              const ref = refMap[process.env.EVENT_NAME];
+              let branch = ref;
+              console.log('branch', branch);
+
+# # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+# name: Debug GHA
+
+# on:
+#   pull_request:
+#     branches:
+#       - main
+#       - develop
+#       - 'staging*'
+#       - 'beta*'
+#       - 'stable*'
+
+# jobs:
+#   manifest-permissions-changes-check:
+#     needs: set-build-params
+#     name: Check manifest.json permissions
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: actions/github-script@v7
+#         #        if: '${{ env.permissions_changed == 'true' }}'
+#         with:
+#           script: |
+#             const issues = await github.rest.pulls.list({
+#               owner: context.repo.owner,
+#               repo: context.repo.repo,
+#               state: 'open',
+#               head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`
+#             })
             
-            console.log(context.ref);
-            console.log(github.base_ref);
-            console.log(needs.set-build-params.outputs.base_ref);
+#             console.log(context.ref);
+#             console.log(github.base_ref);
+#             console.log(needs.set-build-params.outputs.base_ref);
             
-            const issue_number = context.issue.number || issues.data[0].number
+#             const issue_number = context.issue.number || issues.data[0].number
             
-            console.log(issue_number);
+#             console.log(issue_number);
             
-            github.rest.issues.createComment({
-              issue_number: issue_number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: '⚠️ The `permissions` in `manifest.json` have been modified. Please review the changes carefully ⚠️'
-            })
+#             github.rest.issues.createComment({
+#               issue_number: issue_number,
+#               owner: context.repo.owner,
+#               repo: context.repo.repo,
+#               body: '⚠️ The `permissions` in `manifest.json` have been modified. Please review the changes carefully ⚠️'
+#             })
 
 
